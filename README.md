@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/adrajameet7805/AI-Powered-ERP-System/main/frontend/public/logo.png" alt="SynergyBeam ERP Logo" width="120" onerror="this.src='https://via.placeholder.com/120?text=ERP'"/>
+  <img src="screenshots/logo.png" alt="SynergyBeam ERP Logo" width="120" />
 
   # AI-Powered Enterprise Resource Planning (ERP) System
   
@@ -219,11 +219,11 @@ This system goes beyond standard CRUD operations by integrating Python-native da
 
 | Dashboard Overview | Inventory Management |
 | :---: | :---: |
-| <img src="https://via.placeholder.com/600x350/020617/FFFFFF?text=Dashboard+Screenshot" alt="Dashboard" /> | <img src="https://via.placeholder.com/600x350/020617/FFFFFF?text=Inventory+Screenshot" alt="Inventory" /> |
+| ![Dashboard](screenshots/dashboard.png) | ![Inventory](screenshots/inventory.png) |
 
 | AI Forecasting | Mobile Responsive |
 | :---: | :---: |
-| <img src="https://via.placeholder.com/600x350/020617/FFFFFF?text=AI+Forecasting" alt="AI Forecasting" /> | <img src="https://via.placeholder.com/600x350/020617/FFFFFF?text=Mobile+View" alt="Mobile View" /> |
+| ![AI Forecast](screenshots/ai-forecast.png) | ![Mobile View](screenshots/mobile-view.png) |
 
 ---
 
