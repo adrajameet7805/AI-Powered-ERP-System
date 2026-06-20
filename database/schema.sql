@@ -1,0 +1,28 @@
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR(120) UNIQUE NOT NULL,
+    password_hash VARCHAR(256) NOT NULL,
+    role VARCHAR(50) DEFAULT 'Employee',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE inventory (
+    id SERIAL PRIMARY KEY,
+    sku VARCHAR(100) UNIQUE NOT NULL,
+    quantity INTEGER DEFAULT 0,
+    warehouse_id INTEGER,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE warehouses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    location VARCHAR(200)
+);
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    price DECIMAL(10, 2),
+    sku VARCHAR(100) UNIQUE NOT NULL
+);
