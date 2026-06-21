@@ -3,7 +3,20 @@
 import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
 
+import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
+
 function PurchasePage() {
+  const { data: suppliers } = useQuery({
+    queryKey: ["suppliers"],
+    queryFn: async () => (await api.get('/suppliers')).data || [],
+  });
+
+  const supplierOptions = (suppliers || []).map((s: any) => ({
+    label: s.name,
+    value: s.id.toString(),
+  }));
+
   return (
     <div className="p-6 lg:p-8">
       <PageHeader title="Purchase" description="Suppliers, purchase orders, and procurement." />
@@ -37,7 +50,13 @@ function PurchasePage() {
             { key: "total_amount", label: "Total", render: (r) => `$${Number(r.total_amount).toLocaleString()}` },
           ]}
           fields={[
-            { name: "supplier_id", label: "Supplier UUID" },
+            { 
+              name: "supplier_id", 
+              label: "Supplier", 
+              type: "select", 
+              options: supplierOptions,
+              required: true
+            },
             { name: "order_date", label: "Order date", type: "date" },
             { name: "status", label: "Status", type: "select", defaultValue: "draft",
               options: [{label:"Draft",value:"draft"},{label:"Sent",value:"sent"},{label:"Received",value:"received"},{label:"Completed",value:"completed"}]},

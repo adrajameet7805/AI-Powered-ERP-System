@@ -74,7 +74,10 @@ export function ResourceTable<T extends { id: string }>({
       qc.invalidateQueries({ queryKey: [table] });
       setOpen(false);
     },
-    onError: (e: Error) => toast.error(e.message),
+    onError: (e: any) => {
+      const msg = e.response?.data?.error || e.message;
+      toast.error(msg);
+    },
   });
 
   const deleteMutation = useMutation({
@@ -85,7 +88,10 @@ export function ResourceTable<T extends { id: string }>({
       toast.success("Deleted");
       qc.invalidateQueries({ queryKey: [table] });
     },
-    onError: (e: Error) => toast.error(e.message),
+    onError: (e: any) => {
+      const msg = e.response?.data?.error || e.message;
+      toast.error(msg);
+    },
   });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {

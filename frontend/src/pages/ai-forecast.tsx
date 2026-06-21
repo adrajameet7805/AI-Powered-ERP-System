@@ -35,8 +35,8 @@ function AIForecastPage() {
     mutationFn: async () => {
       const { data } = await api.get('/forecast');
       return {
-        summary: data.insights || "Demand is expected to rise by 15% next month based on historical data.",
-        insights: [
+        summary: data.summary || data.insights || "Demand is expected to rise by 15% next month based on historical data.",
+        insights: data.sku_insights || [
             {
                 sku: "SKU-100",
                 name: "Enterprise Server Gen 10",

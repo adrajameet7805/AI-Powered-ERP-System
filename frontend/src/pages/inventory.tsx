@@ -11,7 +11,7 @@ function InventoryPage() {
   const { data: products } = useQuery({
     queryKey: ["products-summary"],
     queryFn: async () => {
-      const { data, error } = await api.get(`/${"products"}`);
+      const { data, error } = await api.get(`/inventory/products`);
       if (error) throw error;
       return data;
     },
@@ -37,7 +37,7 @@ function InventoryPage() {
         <ResourceTable<Product>
           title="Products"
           description="Catalog with live stock levels"
-          table="products"
+          table="inventory/products"
           columns={[
             { key: "sku", label: "SKU" },
             { key: "name", label: "Product" },

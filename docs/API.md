@@ -1,16 +1,47 @@
-# Synergybeam ERP API Documentation
+# API Documentation
 
-## Authentication
-`POST /api/auth/login`
-- **Body:** `{ "email": "admin@example.com", "password": "password" }`
-- **Response:** `{ "access_token": "jwt-token", "user": { "email": "admin@example.com", "role": "Admin" } }`
-
-## Inventory
-`GET /api/inventory`
-- **Headers:** `Authorization: Bearer <jwt-token>`
-- **Response:** `[{ "id": 1, "sku": "SKU-100", "quantity": 150 }]`
+## Base URL
+`/api`
 
 ## AI Forecasting
-`GET /api/forecast`
-- **Headers:** `Authorization: Bearer <jwt-token>`
-- **Response:** `{ "demand": 450, "reorder_quantity": 200, "insights": "..." }`
+- **`GET /api/forecast`**
+  - **Description**: Returns 30-day inventory demand forecast using Prophet/Scikit-Learn models. Identifies overstock and shortage risks.
+
+## Exports
+- **`GET /api/export/pdf/<module>`**
+  - **Supported Modules**: `sales`, `inventory`, `financials`
+  - **Description**: Downloads a PDF report for the specified module.
+- **`GET /api/export/excel/<module>`**
+  - **Supported Modules**: `inventory`, `crm`, `hrms`, `accounting`
+  - **Description**: Downloads an Excel (.xlsx) file containing all records.
+
+## Core Modules (CRUD)
+The following modules support standard REST operations (`GET`, `POST`, `DELETE` via `/<module>/<id>`):
+
+### CRM
+- `/api/customers`
+- `/api/leads`
+
+### Sales & Purchase
+- `/api/sales_orders`
+- `/api/invoices`
+- `/api/suppliers`
+- `/api/purchase_orders`
+
+### HR & Projects
+- `/api/employees`
+- `/api/attendance`
+- `/api/leave_requests`
+- `/api/projects`
+- `/api/tasks`
+
+### Finance & Assets
+- `/api/accounts`
+- `/api/transactions`
+- `/api/expenses`
+- `/api/assets`
+
+### Inventory
+- `/api/inventory/products`
+- `/api/warehouses`
+- `/api/stock_movements`

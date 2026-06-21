@@ -10,7 +10,7 @@ const api = axios.create({
 // Request interceptor to attach JWT token
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("access_token");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -27,16 +27,16 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
+        const refreshToken = localStorage.getItem("refresh_token");
         if (refreshToken) {
           const res = await axios.post("http://localhost:5000/api/auth/refresh", { token: refreshToken });
-          localStorage.setItem("accessToken", res.data.access_token);
+          localStorage.setItem("access_token", res.data.access_token);
           originalRequest.headers.Authorization = `Bearer ${res.data.access_token}`;
           return api(originalRequest);
         }
       } catch (err) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
         window.location.href = "/auth";
       }
     }

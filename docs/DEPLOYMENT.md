@@ -1,19 +1,51 @@
 # Deployment Guide
 
-This project is fully dockerized using `docker-compose`.
+SynergyBeam ERP is fully containerized using Docker and Docker Compose. This guide outlines how to deploy the application in a production-ready environment using PostgreSQL.
 
 ## Prerequisites
 - Docker
 - Docker Compose
+- Node.js (for local development without Docker)
+- Python 3.10+ (for local development without Docker)
 
-## Running the Project
-```bash
-docker-compose up --build -d
-```
+## Production Deployment (Docker)
 
-This will spin up:
-1. **PostgreSQL** database on port `5432` with pre-seeded data.
-2. **Flask Backend** API on port `5000`.
-3. **React Frontend** on port `8080`.
+1. **Configure Environment Variables**
+   Create a `.env` file based on `.env.production` in the root directory:
+   ```env
+   SECRET_KEY=your-secure-secret-key
+   JWT_SECRET_KEY=your-secure-jwt-key
+   DATABASE_URL=postgresql://postgres:postgres@db:5432/synergybeam
+   ```
 
-Access the frontend by visiting `http://localhost:8080/`.
+2. **Build and Start Containers**
+   Run the following command to spin up the PostgreSQL database, Python backend, and React frontend:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+3. **Database Initialization**
+   The PostgreSQL instance is automatically seeded with schema and initial data via the mounted volumes (`schema.sql` and `seed.sql`) upon first initialization.
+
+4. **Access the Application**
+   - Frontend UI: `http://localhost:8080`
+   - Backend API: `http://localhost:5000`
+
+## Local Development (Without Docker)
+
+1. **Backend Setup**
+   ```bash
+   cd backend
+   python -m venv venv
+   source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
+   pip install -r requirements.txt
+   python init_db.py         # This will create a local SQLite fallback DB
+   python app.py
+   ```
+
+2. **Frontend Setup**
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
