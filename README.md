@@ -190,7 +190,7 @@ An uncompromising selection of the world's finest open-source tools.
 
 | 📊 Executive Dashboard | 📦 Inventory Intelligence |
 | :---: | :---: |
-| <img src="screenshots/dashboard.png" alt="Dashboard" width="100%" /> | <img src="screenshots/inventory.png" alt="Inventory" width="100%" /> |
+| <img src="C:\Users\Meet\Downloads\synergybeam-erp-main\synergybeam-erp-main\screenshots\Screenshot 2026-06-21 074452.png" alt="Dashboard" width="100%" /> | <img src="C:\Users\Meet\Downloads\synergybeam-erp-main\synergybeam-erp-main\screenshots\Screenshot 2026-06-21 074506.png" alt="Inventory" width="100%" /> |
 | High-level KPI tracking, revenue trailing, and cash flow visualization. | Real-time stock movement, SKU tracking, and variance analysis. |
 
 | 🤖 AI Forecasting Insights | 📱 Mobile Responsiveness |
