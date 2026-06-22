@@ -2,6 +2,7 @@ from database import db
 
 class Project(db.Model):
     __tablename__ = 'projects'
+    REQUIRED_FIELDS = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
@@ -23,8 +24,10 @@ class Project(db.Model):
 
 class Task(db.Model):
     __tablename__ = 'tasks'
+    REQUIRED_FIELDS = ['project_id', 'title']
     id = db.Column(db.Integer, primary_key=True)
-    project_id = db.Column(db.Integer)
+    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'))
+    project = db.relationship('Project', backref='tasks')
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
     status = db.Column(db.String(50), default='todo')
@@ -35,6 +38,7 @@ class Task(db.Model):
     def to_dict(self):
         return {
             "id": self.id, "project_id": self.project_id, "title": self.title,
+            "project_name": self.project.name if self.project else None,
             "description": self.description, "status": self.status, "priority": self.priority,
             "due_date": str(self.due_date) if self.due_date else None,
             "created_at": str(self.created_at) if self.created_at else None

@@ -1,3 +1,4 @@
+import { N } from "@/types";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Bell, Check, Loader2 } from "lucide-react";

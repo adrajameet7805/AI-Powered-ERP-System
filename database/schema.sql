@@ -129,6 +129,13 @@ CREATE TABLE stock_movements (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE forecast_logs (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    products_analyzed INTEGER,
+    urgent_count INTEGER
+);
+
 -- HR
 CREATE TABLE employees (
     id SERIAL PRIMARY KEY,

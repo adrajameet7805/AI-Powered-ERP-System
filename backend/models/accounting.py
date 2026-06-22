@@ -18,7 +18,8 @@ class Account(db.Model):
 class Transaction(db.Model):
     __tablename__ = 'transactions'
     id = db.Column(db.Integer, primary_key=True)
-    account_id = db.Column(db.Integer)
+    account_id = db.Column(db.Integer, db.ForeignKey('accounts.id'))
+    account = db.relationship('Account', backref='transactions')
     txn_type = db.Column(db.String(50), default='debit')
     amount = db.Column(db.Numeric(10, 2), nullable=False)
     reference = db.Column(db.String(100))
@@ -29,6 +30,7 @@ class Transaction(db.Model):
     def to_dict(self):
         return {
             "id": self.id, "account_id": self.account_id, "txn_type": self.txn_type,
+            "account_name": self.account.name if self.account else None,
             "amount": float(self.amount) if self.amount else 0,
             "reference": self.reference, "description": self.description,
             "txn_date": str(self.txn_date) if self.txn_date else None,

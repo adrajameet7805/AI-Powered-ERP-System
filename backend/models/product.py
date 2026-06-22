@@ -2,6 +2,7 @@ from database import db
 
 class Product(db.Model):
     __tablename__ = 'products'
+    REQUIRED_FIELDS = ['sku', 'name']
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)

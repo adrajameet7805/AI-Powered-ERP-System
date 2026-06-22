@@ -1,10 +1,10 @@
-
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Boxes, PackageCheck, TrendingDown } from "lucide-react";
+import { AlertTriangle, Loader2, TrendingUp } from "lucide-react";
 
 import api from "@/services/api";
-import { ResourceTable } from "@/components/resource-table";
+import { ResourceTable, type ColumnDef, type FieldDef } from "@/components/resource-table";
 import { PageHeader, StatPill, StatusBadge } from "@/components/module-shell";
+import { Product, Warehouse, Movement } from "@/types";
 
 function InventoryPage() {
   const { data: products } = useQuery({

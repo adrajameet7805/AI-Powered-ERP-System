@@ -1,8 +1,8 @@
-
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
-import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatPill, StatusBadge } from "@/components/module-shell";
+import { ResourceTable } from "@/components/resource-table";
+import { Account, Txn, Expense } from "@/types";
 
 function AccountingPage() {
   const { data: accounts } = useQuery({

@@ -51,7 +51,7 @@ function ReportsPage() {
       acc[k].payroll += Number(e.salary);
       return acc;
     }, {}),
-  ).map(([name, v]) => ({ name, headcount: v.count, payroll: v.payroll }));
+  ).map(([name, v]: [string, { count: number; payroll: number }]) => ({ name, headcount: v.count, payroll: v.payroll }));
 
   function downloadCSV(rows: Record<string, unknown>[], filename: string) {
     if (!rows.length) return toast.info("No data to export");

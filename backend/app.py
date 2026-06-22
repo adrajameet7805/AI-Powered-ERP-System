@@ -15,13 +15,25 @@ from routes.assets import assets_bp
 from routes.inventory_extended import inventory_ext_bp
 from routes.export import export_bp
 from routes.notifications import notifications_bp
+from routes.dashboard import dashboard_bp
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    CORS(app)
+    # Security: Restrict CORS origins to frontend domains
+    CORS(app, resources={
+        r"/api/*": {
+            "origins": ["http://localhost:5173", "http://127.0.0.1:5173", "https://*.lovable.dev", "https://*.lovableproject.com"],
+            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            "allow_headers": ["Content-Type", "Authorization"]
+        }
+    })
+    
     db.init_app(app)
+    
+    from extensions import limiter
+    limiter.init_app(app)
 
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
@@ -37,6 +49,7 @@ def create_app():
     app.register_blueprint(inventory_ext_bp, url_prefix='/api')
     app.register_blueprint(export_bp, url_prefix='/api/export')
     app.register_blueprint(notifications_bp, url_prefix='/api')
+    app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
 
     @app.route('/api/health', methods=['GET'])
     def health_check():

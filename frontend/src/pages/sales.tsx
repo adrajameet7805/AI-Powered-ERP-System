@@ -1,3 +1,4 @@
+import { SO, Invoice } from "@/types";
 
 import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";

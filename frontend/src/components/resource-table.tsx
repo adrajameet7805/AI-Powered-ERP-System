@@ -1,7 +1,7 @@
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2, Pencil, Trash2 } from "lucide-react";
+import { Loader2, Pencil, Trash2, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 import api from "@/services/api";
 import { Button } from "@/components/ui/button";
@@ -54,18 +54,37 @@ export function ResourceTable<T extends { id: string }>({
   const [open, setOpen] = useState(false);
   const [editRow, setEditRow] = useState<T | null>(null);
   const [editOpen, setEditOpen] = useState(false);
+  
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  const { data, isLoading } = useQuery({
-    queryKey: [table, orderBy, orderAsc],
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  // Reset page when search changes
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch]);
+
+  const { data: responseData, isLoading } = useQuery({
+    queryKey: [table, orderBy, orderAsc, page, debouncedSearch],
     queryFn: async () => {
       try {
-        const { data } = await api.get(`/${table}?orderBy=${orderBy}&orderAsc=${orderAsc}`);
-        return data as T[];
+        const { data } = await api.get(`/${table}?orderBy=${orderBy}&orderAsc=${orderAsc}&page=${page}&per_page=50&search=${encodeURIComponent(debouncedSearch)}`);
+        return data as { data: T[], total: number, page: number, pages: number, per_page: number } | T[];
       } catch (e) {
-        return [] as T[];
+        return null;
       }
     },
   });
+
+  // Handle both paginated and non-paginated (e.g. products) endpoints for safety during migration
+  const isPaginated = responseData && !Array.isArray(responseData);
+  const rows = (isPaginated ? (responseData as any).data : (responseData || [])) as T[];
+  const totalPages = isPaginated ? (responseData as any).pages : 1;
 
   const createMutation = useMutation({
     mutationFn: async (values: Record<string, unknown>) => {
@@ -131,6 +150,17 @@ export function ResourceTable<T extends { id: string }>({
       description={description}
       action={<AddButton onClick={() => setOpen(true)} />}
     >
+      <div className="mb-4 relative max-w-sm">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+          type="search"
+          placeholder={`Search ${title.toLowerCase()}...`}
+          className="pl-8"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
       <div className="overflow-x-auto rounded-md border border-border/60">
         <Table>
           <TableHeader>
@@ -147,12 +177,12 @@ export function ResourceTable<T extends { id: string }>({
                 <Loader2 className="mx-auto h-4 w-4 animate-spin" />
               </TableCell></TableRow>
             )}
-            {!isLoading && (data?.length ?? 0) === 0 && (
+            {!isLoading && rows.length === 0 && (
               <TableRow><TableCell colSpan={columns.length + 1} className="text-center py-10 text-sm text-muted-foreground">
                 {emptyMessage}
               </TableCell></TableRow>
             )}
-            {data?.map((row) => (
+            {rows.map((row) => (
               <TableRow key={row.id} className="hover:bg-muted/20">
                 {columns.map((c) => (
                   <TableCell key={c.key} className="text-sm">
@@ -174,6 +204,32 @@ export function ResourceTable<T extends { id: string }>({
           </TableBody>
         </Table>
       </div>
+
+      {isPaginated && totalPages > 1 && (
+        <div className="flex items-center justify-end gap-2 pt-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPage(p => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+          >
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-lg">

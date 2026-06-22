@@ -1,8 +1,28 @@
-
 import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
+import { type ColumnDef, type FieldDef } from "@/components/resource-table";
+import { Emp, Att, Leave } from "@/types";
 
 function HRPage() {
+  const eCols: ColumnDef<Emp>[] = [
+    { key: "employee_code", label: "Code" },
+    { key: "full_name", label: "Name" },
+    { key: "department", label: "Department" },
+    { key: "position", label: "Position" },
+    { key: "salary", label: "Salary", render: (r) => `$${Number(r.salary).toLocaleString()}` },
+    { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
+  ];
+
+  const eFields: FieldDef<Emp>[] = [
+    { name: "employee_code", label: "Employee code", required: true, placeholder: "EMP-006" },
+    { name: "full_name", label: "Full name", required: true },
+    { name: "email", label: "Email", type: "email" },
+    { name: "department", label: "Department" },
+    { name: "position", label: "Position" },
+    { name: "hire_date", label: "Hire date", type: "date" },
+    { name: "salary", label: "Annual salary ($)", type: "number", defaultValue: 0 },
+  ];
+
   return (
     <div className="p-6 lg:p-8">
       <PageHeader title="Human Resources" description="Employees, attendance, leave and payroll." />

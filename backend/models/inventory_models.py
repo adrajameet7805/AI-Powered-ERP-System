@@ -41,3 +41,16 @@ class StockMovement(db.Model):
             "reference": self.reference, "notes": self.notes,
             "created_at": str(self.created_at) if self.created_at else None
         }
+
+class ForecastLog(db.Model):
+    __tablename__ = 'forecast_logs'
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime, server_default=db.func.now())
+    products_analyzed = db.Column(db.Integer)
+    urgent_count = db.Column(db.Integer)
+
+    def to_dict(self):
+        return {
+            "id": self.id, "timestamp": str(self.timestamp) if self.timestamp else None,
+            "products_analyzed": self.products_analyzed, "urgent_count": self.urgent_count
+        }

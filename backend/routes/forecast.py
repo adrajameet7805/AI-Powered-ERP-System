@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify
 from database import db
 from models.product import Product
-from models.inventory_models import StockMovement
+from models.inventory_models import StockMovement, ForecastLog
 from ai_service.forecaster import analyze_inventory
-from datetime import datetime, timedelta
-import random
+from sqlalchemy import func
+from datetime import datetime
 from routes.auth import token_required
 
 forecast_bp = Blueprint('forecast', __name__)
@@ -16,23 +16,52 @@ def get_forecast():
         products = Product.query.all()
         products_data = [p.to_dict() for p in products]
         
-        # Build mock sales history for the ML models
-        # (In a real scenario, this would group actual past sales_orders / stock_movements)
         sales_history = {}
-        for p in products_data:
-            sku = p['sku']
-            history = []
-            # Generate 90 days of random historical data for training
-            base_demand = random.randint(2, 20)
-            for i in range(90, 0, -1):
-                date_str = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
-                # Add some noise to the data
-                noise = random.randint(-2, 5)
-                y = max(0, base_demand + noise)
-                history.append({'ds': date_str, 'y': y})
-            sales_history[sku] = history
+        for p in products:
+            # Query actual stock movements (outward) grouped by date
+            movements = db.session.query(
+                func.date(StockMovement.created_at).label('ds'),
+                func.sum(StockMovement.quantity).label('y')
+            ).filter(
+                StockMovement.product_id == p.id,
+                StockMovement.movement_type == 'out'
+            ).group_by(
+                func.date(StockMovement.created_at)
+            ).order_by('ds').all()
+            
+            history = [{'ds': str(m.ds), 'y': int(m.y)} for m in movements]
+            sales_history[p.sku] = history
             
         result = analyze_inventory(products_data, sales_history)
+        
+        # Override reasoning if history is less than 14 days
+        urgent_count = 0
+        for insight in result['sku_insights']:
+            sku = insight['sku']
+            history_len = len(sales_history.get(sku, []))
+            if history_len == 0:
+                insight['reasoning'] = "Insufficient sales history — add stock movement data for AI forecasting."
+                insight['recommendation'] = "unknown"
+                insight['forecast30d'] = 0
+                insight['suggestedOrderQty'] = 0
+            elif history_len < 14:
+                insight['reasoning'] = f"Insufficient history ({history_len} days)."
+                insight['recommendation'] = "unknown"
+                insight['forecast30d'] = 0
+                insight['suggestedOrderQty'] = 0
+            elif insight['recommendation'] == "reorder_urgent":
+                urgent_count += 1
+                
+        # Store forecast run in logs
+        log = ForecastLog(
+            products_analyzed=len(products_data),
+            urgent_count=urgent_count
+        )
+        db.session.add(log)
+        db.session.commit()
+        
         return jsonify(result), 200
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500

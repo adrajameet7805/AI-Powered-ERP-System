@@ -2,6 +2,7 @@ from database import db
 
 class Customer(db.Model):
     __tablename__ = 'customers'
+    REQUIRED_FIELDS = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     company = db.Column(db.String(200))
@@ -19,6 +20,7 @@ class Customer(db.Model):
 
 class Lead(db.Model):
     __tablename__ = 'leads'
+    REQUIRED_FIELDS = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120))

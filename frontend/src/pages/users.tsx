@@ -60,14 +60,14 @@ function UsersPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data?.map((p) => (
+                  {data?.map((p: any) => (
                     <TableRow key={p.id}>
                       <TableCell className="text-sm font-medium">{p.full_name ?? "—"}</TableCell>
                       <TableCell className="text-sm">{p.email ?? "—"}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">{new Date(p.created_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         {p.roles.length > 0
-                          ? p.roles.map((r) => <Badge key={r} variant="outline" className="mr-1">{r}</Badge>)
+                          ? p.roles.map((r: any) => <Badge key={r} variant="outline" className="mr-1">{r}</Badge>)
                           : <span className="text-xs text-muted-foreground">none</span>}
                       </TableCell>
                     </TableRow>

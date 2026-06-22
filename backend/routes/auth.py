@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models.user import User
 from database import db
 from functools import wraps
+from extensions import limiter
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -29,14 +30,19 @@ def token_required(roles=None):
                 if roles and current_user.role not in roles:
                     return jsonify({'error': 'Unauthorized role!'}), 403
                     
-            except:
+            except jwt.ExpiredSignatureError:
+                return jsonify({'error': 'Token has expired!'}), 401
+            except jwt.InvalidTokenError:
                 return jsonify({'error': 'Token is invalid!'}), 401
+            except Exception as e:
+                return jsonify({'error': str(e)}), 401
                 
             return f(*args, **kwargs)
         return decorated
     return decorator
 
 @auth_bp.route('/login', methods=['POST'])
+@limiter.limit("5 per minute")
 def login():
     data = request.get_json()
     email = data.get('email')
@@ -104,8 +110,12 @@ def refresh():
         }, Config.JWT_SECRET_KEY, algorithm='HS256')
         
         return jsonify({'access_token': token}), 200
-    except:
-        return jsonify({'error': 'Invalid refresh token'}), 401
+    except jwt.ExpiredSignatureError:
+        return jsonify({'error': 'Refresh token has expired!'}), 401
+    except jwt.InvalidTokenError:
+        return jsonify({'error': 'Invalid refresh token!'}), 401
+    except Exception as e:
+        return jsonify({'error': str(e)}), 401
 
 @auth_bp.route('/users', methods=['GET'])
 @token_required()
