@@ -17,8 +17,7 @@ function NotificationsPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["notifications", user?.id],
     queryFn: async () => {
-      const { data, error } = await api.get(`/${"notifications"}`).order("created_at", { ascending: false });
-      if (error) throw error;
+      const { data } = await api.get("/notifications");
       return data as N[];
     },
     enabled: !!user,
@@ -33,8 +32,7 @@ function NotificationsPage() {
         { user_id: user.id, title: "Leave request awaiting approval", message: "Marcus Lee · 3 days · Aug 12–14", type: "hr" },
         { user_id: user.id, title: "PO-2041 received at Main Warehouse", message: "12 line items reconciled", type: "purchase" },
       ];
-      const { error } = await Promise.resolve({data: []}).insert(rows);
-      if (error) throw error;
+      await api.post("/notifications", rows);
     },
     onSuccess: () => { toast.success("Demo notifications added"); qc.invalidateQueries({ queryKey: ["notifications"] }); },
     onError: (e: Error) => toast.error(e.message),
@@ -42,8 +40,7 @@ function NotificationsPage() {
 
   const markRead = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await Promise.resolve({data: []}).update({ read: true }).eq("id", id);
-      if (error) throw error;
+      await api.patch(`/notifications/${id}`, { read: true });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
   });

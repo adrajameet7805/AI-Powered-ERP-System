@@ -14,6 +14,7 @@ from routes.projects import projects_bp
 from routes.assets import assets_bp
 from routes.inventory_extended import inventory_ext_bp
 from routes.export import export_bp
+from routes.notifications import notifications_bp
 
 def create_app():
     app = Flask(__name__)
@@ -35,6 +36,7 @@ def create_app():
     app.register_blueprint(assets_bp, url_prefix='/api')
     app.register_blueprint(inventory_ext_bp, url_prefix='/api')
     app.register_blueprint(export_bp, url_prefix='/api/export')
+    app.register_blueprint(notifications_bp, url_prefix='/api')
 
     @app.route('/api/health', methods=['GET'])
     def health_check():

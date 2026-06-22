@@ -16,14 +16,8 @@ function UsersPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["profiles-with-roles"],
     queryFn: async () => {
-      const { data: profiles, error } = await supabase
-        .from("profiles").select("id,full_name,email,created_at").order("created_at", { ascending: false });
-      if (error) throw error;
-      const { data: rolesData } = await api.get(`/${"user_roles"}`);
-      const rolesByUser = (rolesData ?? []).reduce<Record<string, string[]>>((acc, r) => {
-        (acc[r.user_id] ??= []).push(r.role); return acc;
-      }, {});
-      return (profiles ?? []).map((p) => ({ ...p, roles: rolesByUser[p.id] ?? [] })) as ProfileWithRoles[];
+      const { data } = await api.get("/auth/users");
+      return data;
     },
   });
 

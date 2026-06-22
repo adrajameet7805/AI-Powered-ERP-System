@@ -106,3 +106,18 @@ def refresh():
         return jsonify({'access_token': token}), 200
     except:
         return jsonify({'error': 'Invalid refresh token'}), 401
+
+@auth_bp.route('/users', methods=['GET'])
+@token_required()
+def get_users():
+    users = User.query.order_by(User.created_at.desc()).all()
+    user_list = []
+    for u in users:
+        user_list.append({
+            'id': str(u.id),
+            'email': u.email,
+            'full_name': u.email.split('@')[0],
+            'created_at': u.created_at.isoformat() if u.created_at else None,
+            'roles': [u.role] if u.role else []
+        })
+    return jsonify(user_list), 200
