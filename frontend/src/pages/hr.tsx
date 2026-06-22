@@ -2,25 +2,61 @@ import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
 import { type ColumnDef, type FieldDef } from "@/components/resource-table";
 import { Emp, Att, Leave } from "@/types";
+import { useAuth } from "@/hooks/use-auth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/services/api";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 function HRPage() {
-  const eCols: ColumnDef<Emp>[] = [
-    { key: "employee_code", label: "Code" },
-    { key: "full_name", label: "Name" },
-    { key: "department", label: "Department" },
-    { key: "position", label: "Position" },
-    { key: "salary", label: "Salary", render: (r) => `$${Number(r.salary).toLocaleString()}` },
-    { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
-  ];
+  const { roles } = useAuth();
+  const isManagerOrAdmin = roles[0] === "Admin" || roles[0] === "Manager";
+  const queryClient = useQueryClient();
 
-  const eFields: FieldDef<Emp>[] = [
-    { name: "employee_code", label: "Employee code", required: true, placeholder: "EMP-006" },
-    { name: "full_name", label: "Full name", required: true },
-    { name: "email", label: "Email", type: "email" },
-    { name: "department", label: "Department" },
-    { name: "position", label: "Position" },
-    { name: "hire_date", label: "Hire date", type: "date" },
-    { name: "salary", label: "Annual salary ($)", type: "number", defaultValue: 0 },
+  const approveMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string | number; status: string }) => {
+      await api.patch(`/leave_requests/${id}/status`, { status });
+    },
+    onSuccess: () => {
+      toast.success("Leave request updated");
+      queryClient.invalidateQueries({ queryKey: ["leave_requests"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    }
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: async ({ id, status }: { id: string | number; status: string }) => {
+      await api.patch(`/leave_requests/${id}/status`, { status });
+    },
+    onSuccess: () => {
+      toast.success("Leave request updated");
+      queryClient.invalidateQueries({ queryKey: ["leave_requests"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    }
+  });
+
+  const leaveColumns: ColumnDef<Leave>[] = [
+    { key: "leave_type", label: "Type" },
+    { key: "start_date", label: "From" },
+    { key: "end_date", label: "To" },
+    { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
+    { key: "reason", label: "Reason" },
+    {
+      key: "actions",
+      label: "Actions",
+      render: (row) => row.status === "pending" && isManagerOrAdmin ? (
+        <div className="flex gap-2">
+          <Button size="sm" variant="outline"
+            onClick={() => approveMutation.mutate({ id: row.id, status: "approved" })}>
+            ✅ Approve
+          </Button>
+          <Button size="sm" variant="destructive"
+            onClick={() => rejectMutation.mutate({ id: row.id, status: "rejected" })}>
+            ❌ Reject
+          </Button>
+        </div>
+      ) : null
+    }
   ];
 
   return (
@@ -69,13 +105,7 @@ function HRPage() {
         <ResourceTable<Leave>
           title="Leave Requests"
           table="leave_requests"
-          columns={[
-            { key: "leave_type", label: "Type" },
-            { key: "start_date", label: "From" },
-            { key: "end_date", label: "To" },
-            { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
-            { key: "reason", label: "Reason" },
-          ]}
+          columns={leaveColumns}
           fields={[
             { name: "employee_id", label: "Employee UUID" },
             { name: "leave_type", label: "Type", required: true, placeholder: "Vacation, Sick…" },
@@ -88,6 +118,5 @@ function HRPage() {
     </div>
   );
 }
-
 
 export default HRPage;

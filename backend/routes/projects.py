@@ -4,5 +4,5 @@ from models.projects import Project, Task
 
 projects_bp = Blueprint('projects', __name__)
 
-create_crud_routes(projects_bp, Project, 'projects')
-create_crud_routes(projects_bp, Task, 'tasks')
+create_crud_routes(projects_bp, Project, 'projects', roles=["Admin", "Manager", "Employee"])
+create_crud_routes(projects_bp, Task, 'tasks', roles=["Admin", "Manager", "Employee"])

@@ -67,7 +67,7 @@ def generate_pdf(title, data, filename):
     )
 
 @export_bp.route('/excel/<module>', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def export_excel(module):
     model_map = {
         'inventory': Product,
@@ -82,7 +82,7 @@ def export_excel(module):
     return generate_excel(model_map[module], f"{module}_export.xlsx")
 
 @export_bp.route('/pdf/<module>', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def export_pdf(module):
     model_map = {
         'sales': SalesOrder,

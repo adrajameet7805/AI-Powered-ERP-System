@@ -21,19 +21,26 @@ def get_current_user(req):
     return None
 
 @notifications_bp.route('/notifications', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager", "Employee"])
 def get_notifications():
     try:
         user = get_current_user(request)
         if not user:
             return jsonify({"error": "User not found"}), 401
-        notifications = Notification.query.filter_by(user_id=user.id).order_by(Notification.created_at.desc()).all()
+            
+        notifications = Notification.query.filter(
+            db.or_(
+                Notification.recipient_role == user.role,
+                Notification.recipient_email == user.email,
+                Notification.recipient_role == "all"
+            )
+        ).order_by(Notification.created_at.desc()).all()
         return jsonify([n.to_dict() for n in notifications]), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 @notifications_bp.route('/notifications', methods=['POST'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def create_notifications():
     try:
         user = get_current_user(request)
@@ -46,11 +53,14 @@ def create_notifications():
             
         for item in data:
             n = Notification(
-                user_id=item.get('user_id', user.id),
+                recipient_role=item.get('recipient_role', 'all'),
+                recipient_email=item.get('recipient_email'),
                 title=item.get('title'),
                 message=item.get('message'),
                 type=item.get('type'),
-                read=False
+                read=False,
+                related_id=item.get('related_id'),
+                related_type=item.get('related_type')
             )
             db.session.add(n)
         db.session.commit()
@@ -60,7 +70,7 @@ def create_notifications():
         return jsonify({"error": str(e)}), 400
 
 @notifications_bp.route('/notifications/<int:id>', methods=['PATCH'])
-@token_required()
+@token_required(roles=["Admin", "Manager", "Employee"])
 def update_notification(id):
     try:
         data = request.json
@@ -78,7 +88,7 @@ def update_notification(id):
         return jsonify({"error": str(e)}), 400
 
 @notifications_bp.route('/notifications/<int:id>', methods=['DELETE'])
-@token_required()
+@token_required(roles=["Admin"])
 def delete_notification(id):
     try:
         notification = Notification.query.get(id)
@@ -91,3 +101,4 @@ def delete_notification(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
+

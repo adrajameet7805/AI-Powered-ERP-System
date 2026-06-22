@@ -6,7 +6,7 @@ from routes.auth import token_required
 inventory_bp = Blueprint('inventory', __name__)
 
 @inventory_bp.route('/', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager", "Employee"])
 def get_inventory():
     return jsonify([
         {"id": 1, "sku": "SKU-100", "quantity": 150},
@@ -14,13 +14,13 @@ def get_inventory():
     ])
 
 @inventory_bp.route('/products', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager", "Employee"])
 def get_products():
     products = Product.query.all()
     return jsonify([p.to_dict() for p in products])
 
 @inventory_bp.route('/products', methods=['POST'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def create_product():
     data = request.json
     try:
@@ -47,7 +47,7 @@ def create_product():
         return jsonify({"error": str(e)}), 400
 
 @inventory_bp.route('/products/<int:id>', methods=['DELETE'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def delete_product(id):
     try:
         item = Product.query.get(id)
@@ -61,7 +61,7 @@ def delete_product(id):
         return jsonify({"error": str(e)}), 400
 
 @inventory_bp.route('/products/<int:id>', methods=['PUT'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def update_product(id):
     data = request.json
     try:

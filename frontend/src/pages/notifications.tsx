@@ -27,10 +27,9 @@ function NotificationsPage() {
     mutationFn: async () => {
       if (!user) return;
       const rows = [
-        { user_id: user.id, title: "Reorder suggested for SKU-A7732", message: "AI predicts stockout in 6 days", type: "inventory" },
-        { user_id: user.id, title: "Invoice INV-00421 overdue", message: "Atlas Logistics · $12,300 · 5 days late", type: "finance" },
-        { user_id: user.id, title: "Leave request awaiting approval", message: "Marcus Lee · 3 days · Aug 12–14", type: "hr" },
-        { user_id: user.id, title: "PO-2041 received at Main Warehouse", message: "12 line items reconciled", type: "purchase" },
+        { recipient_role: "Manager", title: "Leave request awaiting approval", message: "Marcus Lee · 3 days · Aug 12–14", type: "hr" },
+        { recipient_role: "Admin", title: "Invoice INV-00421 overdue", message: "Atlas Logistics · $12,300 · 5 days late", type: "finance" },
+        { recipient_role: "all", title: "System maintenance", message: "Scheduled downtime Saturday 2–4 AM", type: "info" },
       ];
       await api.post("/notifications", rows);
     },
@@ -39,7 +38,7 @@ function NotificationsPage() {
   });
 
   const markRead = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async (id: string | number) => {
       await api.patch(`/notifications/${id}`, { read: true });
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["notifications"] }),
@@ -89,6 +88,5 @@ function NotificationsPage() {
     </div>
   );
 }
-
 
 export default NotificationsPage;

@@ -8,35 +8,68 @@ import {
   SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { useAuth } from "@/hooks/use-auth";
+import { useQuery } from "@tanstack/react-query";
+import api from "@/services/api";
 
 const groups = [
-  { label: "Overview", items: [{ title: "Dashboard", url: "/dashboard", icon: LayoutDashboard }] },
-  { label: "Operations", items: [
-    { title: "CRM", url: "/crm", icon: Users },
-    { title: "Inventory", url: "/inventory", icon: Boxes },
-    { title: "Sales", url: "/sales", icon: ShoppingCart },
-    { title: "Purchase", url: "/purchase", icon: Truck },
-  ]},
-  { label: "Back office", items: [
-    { title: "Accounting", url: "/accounting", icon: Receipt },
-    { title: "HR", url: "/hr", icon: UserCog },
-    { title: "Projects", url: "/projects", icon: FolderKanban },
-    { title: "Assets", url: "/assets", icon: Wrench },
-  ]},
-  { label: "Intelligence", items: [
-    { title: "AI Forecasting", url: "/ai-forecast", icon: Brain },
-    { title: "Reports", url: "/reports", icon: BarChart3 },
-    { title: "Notifications", url: "/notifications", icon: Bell },
-  ]},
-  { label: "Admin", items: [
-    { title: "Users & Roles", url: "/users", icon: ShieldCheck },
-  ]},
-] as const;
+  {
+    label: "Overview",
+    items: [
+      { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard, roles: ["Admin", "Manager", "Employee"] },
+    ]
+  },
+  {
+    label: "Operations",
+    items: [
+      { title: "CRM", url: "/crm", icon: Users, roles: ["Admin", "Manager"] },
+      { title: "Inventory", url: "/inventory", icon: Boxes, roles: ["Admin", "Manager", "Employee"] },
+      { title: "Sales", url: "/sales", icon: ShoppingCart, roles: ["Admin", "Manager"] },
+      { title: "Purchase", url: "/purchase", icon: Truck, roles: ["Admin", "Manager"] },
+    ]
+  },
+  {
+    label: "Back office",
+    items: [
+      { title: "Accounting", url: "/accounting", icon: Receipt, roles: ["Admin"] },
+      { title: "HR", url: "/hr", icon: UserCog, roles: ["Admin", "Manager"] },
+      { title: "Projects", url: "/projects", icon: FolderKanban, roles: ["Admin", "Manager", "Employee"] },
+      { title: "Assets", url: "/assets", icon: Wrench, roles: ["Admin", "Manager"] },
+    ]
+  },
+  {
+    label: "Intelligence",
+    items: [
+      { title: "AI Forecasting", url: "/ai-forecast", icon: Brain, roles: ["Admin", "Manager"] },
+      { title: "Reports", url: "/reports", icon: BarChart3, roles: ["Admin", "Manager"] },
+      { title: "Notifications", url: "/notifications", icon: Bell, roles: ["Admin", "Manager", "Employee"] },
+    ]
+  },
+  {
+    label: "Admin",
+    items: [
+      { title: "Users & Roles", url: "/users", icon: ShieldCheck, roles: ["Admin"] },
+    ]
+  },
+];
 
 export function AppSidebar() {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
   const { pathname } = useLocation();
+  const { roles, user } = useAuth();
+  const currentRole = roles[0] || "Employee";
+
+  const { data: notifications } = useQuery({
+    queryKey: ["notifications", user?.id],
+    queryFn: async () => {
+      const { data } = await api.get("/notifications");
+      return data;
+    },
+    enabled: !!user,
+  });
+
+  const unreadCount = notifications?.filter((n: any) => !n.read).length || 0;
 
   return (
     <Sidebar collapsible="icon">
@@ -55,28 +88,39 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        {groups.map((g) => (
-          <SidebarGroup key={g.label}>
-            <SidebarGroupLabel>{g.label}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {g.items.map((item) => {
-                  const active = pathname === item.url;
-                  return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={active} tooltip={item.title}>
-                        <Link to={item.url} className="flex items-center gap-2">
-                          <item.icon className="h-4 w-4" />
-                          {!collapsed && <span className="flex-1 truncate">{item.title}</span>}
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+        {groups.map((g) => {
+          const visibleItems = g.items.filter((item) => item.roles.includes(currentRole));
+          
+          if (visibleItems.length === 0) return null;
+
+          return (
+            <SidebarGroup key={g.label}>
+              <SidebarGroupLabel>{g.label}</SidebarGroupLabel>
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  {visibleItems.map((item) => {
+                    const active = pathname === item.url;
+                    return (
+                      <SidebarMenuItem key={item.title}>
+                        <SidebarMenuButton asChild isActive={active} tooltip={item.title}>
+                          <Link to={item.url} className="flex items-center gap-2">
+                            <item.icon className="h-4 w-4" />
+                            {!collapsed && <span className="flex-1 truncate">{item.title}</span>}
+                            {!collapsed && item.title === "Notifications" && unreadCount > 0 && (
+                              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
+                                {unreadCount}
+                              </span>
+                            )}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    );
+                  })}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          );
+        })}
       </SidebarContent>
 
       <SidebarFooter>

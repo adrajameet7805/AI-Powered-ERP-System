@@ -118,7 +118,7 @@ def refresh():
         return jsonify({'error': str(e)}), 401
 
 @auth_bp.route('/users', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin"])
 def get_users():
     users = User.query.order_by(User.created_at.desc()).all()
     user_list = []

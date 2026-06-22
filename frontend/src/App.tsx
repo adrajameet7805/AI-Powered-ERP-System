@@ -16,6 +16,7 @@ import PurchasePage from "./pages/purchase";
 import ReportsPage from "./pages/reports";
 import SalesPage from "./pages/sales";
 import UsersPage from "./pages/users";
+import { ProtectedRoute } from "./components/protected-route";
 
 export default function App() {
   return (
@@ -25,19 +26,71 @@ export default function App() {
           <Route index element={<IndexPage />} />
           <Route path="auth" element={<AuthPage />} />
           <Route element={<AppLayout />}>
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="accounting" element={<AccountingPage />} />
-            <Route path="ai-forecast" element={<AiForecastPage />} />
-            <Route path="assets" element={<AssetsPage />} />
-            <Route path="crm" element={<CrmPage />} />
-            <Route path="hr" element={<HrPage />} />
-            <Route path="inventory" element={<InventoryPage />} />
-            <Route path="notifications" element={<NotificationsPage />} />
-            <Route path="projects" element={<ProjectsPage />} />
-            <Route path="purchase" element={<PurchasePage />} />
-            <Route path="reports" element={<ReportsPage />} />
-            <Route path="sales" element={<SalesPage />} />
-            <Route path="users" element={<UsersPage />} />
+            <Route path="dashboard" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager", "Employee"]}>
+                <DashboardPage />
+              </ProtectedRoute>
+            } />
+            <Route path="accounting" element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AccountingPage />
+              </ProtectedRoute>
+            } />
+            <Route path="ai-forecast" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <AiForecastPage />
+              </ProtectedRoute>
+            } />
+            <Route path="assets" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <AssetsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="crm" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <CrmPage />
+              </ProtectedRoute>
+            } />
+            <Route path="hr" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <HrPage />
+              </ProtectedRoute>
+            } />
+            <Route path="inventory" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager", "Employee"]}>
+                <InventoryPage />
+              </ProtectedRoute>
+            } />
+            <Route path="notifications" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager", "Employee"]}>
+                <NotificationsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="projects" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager", "Employee"]}>
+                <ProjectsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="purchase" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <PurchasePage />
+              </ProtectedRoute>
+            } />
+            <Route path="reports" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <ReportsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="sales" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <SalesPage />
+              </ProtectedRoute>
+            } />
+            <Route path="users" element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <UsersPage />
+              </ProtectedRoute>
+            } />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" />} />
         </Route>

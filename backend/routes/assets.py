@@ -4,4 +4,4 @@ from models.assets import Asset
 
 assets_bp = Blueprint('assets', __name__)
 
-create_crud_routes(assets_bp, Asset, 'assets')
+create_crud_routes(assets_bp, Asset, 'assets', roles=["Admin", "Manager"])

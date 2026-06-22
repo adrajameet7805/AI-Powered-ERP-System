@@ -10,7 +10,7 @@ from routes.auth import token_required
 forecast_bp = Blueprint('forecast', __name__)
 
 @forecast_bp.route('/', methods=['GET'])
-@token_required()
+@token_required(roles=["Admin", "Manager"])
 def get_forecast():
     try:
         products = Product.query.all()

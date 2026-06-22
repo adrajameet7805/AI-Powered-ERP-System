@@ -3,10 +3,17 @@ import { Supplier, PO } from "@/types";
 import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/services/api";
+import { useAuth } from "@/hooks/use-auth";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 function PurchasePage() {
+  const { roles } = useAuth();
+  const isAdmin = roles[0] === "Admin";
+  const queryClient = useQueryClient();
+
   const { data: suppliers } = useQuery({
     queryKey: ["suppliers"],
     queryFn: async () => (await api.get('/suppliers')).data || [],
@@ -16,6 +23,16 @@ function PurchasePage() {
     label: s.name,
     value: s.id.toString(),
   }));
+
+  const approveMutation = useMutation({
+    mutationFn: async (id: string | number) => {
+      await api.patch(`/purchase_orders/${id}/approve`, {});
+    },
+    onSuccess: () => {
+      toast.success("PO approved");
+      queryClient.invalidateQueries({ queryKey: ["purchase_orders"] });
+    }
+  });
 
   return (
     <div className="p-6 lg:p-8">
@@ -48,6 +65,15 @@ function PurchasePage() {
             { key: "order_date", label: "Date" },
             { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
             { key: "total_amount", label: "Total", render: (r) => `$${Number(r.total_amount).toLocaleString()}` },
+            {
+              key: "approve",
+              label: "",
+              render: (row) => row.status === "pending" && isAdmin ? (
+                <Button size="sm" onClick={() => approveMutation.mutate(row.id)}>
+                  Approve
+                </Button>
+              ) : null
+            }
           ]}
           fields={[
             { 
@@ -68,6 +94,5 @@ function PurchasePage() {
     </div>
   );
 }
-
 
 export default PurchasePage;

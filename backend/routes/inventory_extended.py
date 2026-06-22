@@ -4,5 +4,5 @@ from models.inventory_models import Warehouse, StockMovement
 
 inventory_ext_bp = Blueprint('inventory_ext', __name__)
 
-create_crud_routes(inventory_ext_bp, Warehouse, 'warehouses')
-create_crud_routes(inventory_ext_bp, StockMovement, 'stock_movements')
+create_crud_routes(inventory_ext_bp, Warehouse, 'warehouses', roles=["Admin", "Manager", "Employee"])
+create_crud_routes(inventory_ext_bp, StockMovement, 'stock_movements', roles=["Admin", "Manager", "Employee"])

@@ -61,7 +61,7 @@ function AppLayout() {
                     </Avatar>
                     <div className="hidden text-left text-xs leading-tight md:block">
                       <div className="font-medium">{user.user_metadata?.full_name ?? user.email}</div>
-                      <div className="text-muted-foreground">{roles[0] ?? "employee"}</div>
+                      <div className="text-muted-foreground">{roles[0] ?? "Employee"}</div>
                     </div>
                   </button>
                 </DropdownMenuTrigger>
@@ -69,7 +69,13 @@ function AppLayout() {
                   <DropdownMenuLabel className="flex items-center justify-between">
                     Account
                     {roles.length > 0 && (
-                      <Badge variant="outline" className="text-[10px]">{roles[0]}</Badge>
+                      <Badge variant="outline" className={`text-[10px] ${
+                        roles[0] === "Admin" ? "bg-red-100 text-red-700 border-red-300" :
+                        roles[0] === "Manager" ? "bg-blue-100 text-blue-700 border-blue-300" :
+                        "bg-green-100 text-green-700 border-green-300"
+                      }`}>
+                        {roles[0]}
+                      </Badge>
                     )}
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />

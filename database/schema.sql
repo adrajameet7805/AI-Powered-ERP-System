@@ -213,3 +213,16 @@ CREATE TABLE expenses (
     status VARCHAR(50) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE notifications (
+    id SERIAL PRIMARY KEY,
+    recipient_role VARCHAR(50),
+    recipient_email VARCHAR(120),
+    title VARCHAR(255) NOT NULL,
+    message TEXT,
+    type VARCHAR(50) DEFAULT 'info',
+    read BOOLEAN DEFAULT FALSE,
+    related_id INTEGER,
+    related_type VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
