@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, ShieldCheck } from "lucide-react";

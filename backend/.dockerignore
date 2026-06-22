@@ -1,3 +1,5 @@
 venv/
+fresh_venv/
 __pycache__/
 *.pyc
+*.db

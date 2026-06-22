@@ -50,5 +50,16 @@ def create_app():
     return app
 
 if __name__ == '__main__':
+    import os
+    import logging
+    
+    is_dev = os.environ.get('FLASK_ENV') == 'development'
+    
+    if not is_dev:
+        if Config.SECRET_KEY == 'dev-super-secret-key':
+            logging.warning("WARNING: Running in production with default SECRET_KEY!")
+        if Config.JWT_SECRET_KEY == 'jwt-super-secret-key':
+            logging.warning("WARNING: Running in production with default JWT_SECRET_KEY!")
+            
     app = create_app()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=is_dev)

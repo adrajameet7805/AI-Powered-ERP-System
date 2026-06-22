@@ -76,3 +76,18 @@ def update_notification(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
+
+@notifications_bp.route('/notifications/<int:id>', methods=['DELETE'])
+@token_required()
+def delete_notification(id):
+    try:
+        notification = Notification.query.get(id)
+        if not notification:
+            return jsonify({"error": "Not found"}), 404
+            
+        db.session.delete(notification)
+        db.session.commit()
+        return jsonify({"message": "Deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400

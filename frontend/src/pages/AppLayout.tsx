@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect } from "react";
 import { Bell, LogOut, Search } from "lucide-react";
 import { useNavigate, Outlet } from "react-router-dom";

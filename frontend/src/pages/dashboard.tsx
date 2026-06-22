@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,

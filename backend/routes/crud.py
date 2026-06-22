@@ -50,3 +50,30 @@ def create_crud_routes(bp, model, route_name):
         except Exception as e:
             db.session.rollback()
             return jsonify({"error": str(e)}), 400
+
+    @bp.route(f'/{route_name}/<int:id>', methods=['PUT'], endpoint=f'update_{route_name}')
+    @token_required()
+    def update(id):
+        try:
+            import datetime
+            data = request.json
+            item = model.query.get(id)
+            if not item:
+                return jsonify({"error": "Not found"}), 404
+                
+            for key, value in data.items():
+                if hasattr(model, key):
+                    col = getattr(model, key)
+                    if hasattr(col, 'type') and type(col.type).__name__ == 'Date':
+                        if value:
+                            setattr(item, key, datetime.datetime.strptime(value, '%Y-%m-%d').date())
+                        else:
+                            setattr(item, key, None)
+                    else:
+                        setattr(item, key, value)
+                        
+            db.session.commit()
+            return jsonify(item.to_dict()), 200
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({"error": str(e)}), 400

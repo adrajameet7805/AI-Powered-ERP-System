@@ -17,12 +17,18 @@ services:
   backend:
     build:
       context: ./backend
+    restart: unless-stopped
     ports:
       - "5000:5000"
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/synergybeam
       - SECRET_KEY=dev-super-secret-key
       - JWT_SECRET_KEY=jwt-super-secret-key
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     depends_on:
       - db
 

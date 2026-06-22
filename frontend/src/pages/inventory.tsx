@@ -1,4 +1,3 @@
-// @ts-nocheck
 
 import { useQuery } from "@tanstack/react-query";
 import { AlertTriangle, Boxes, PackageCheck, TrendingDown } from "lucide-react";

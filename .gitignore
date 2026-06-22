@@ -33,7 +33,12 @@ dist-ssr
 
 # Python
 backend/venv/
+backend/fresh_venv/
 venv/
+fresh_venv/
 __pycache__/
 *.pyc
-
+*.pyo
+*.db
+.env
+.env.production

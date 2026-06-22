@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Pencil, Trash2 } from "lucide-react";
 
 import api from "@/services/api";
 import { Button } from "@/components/ui/button";
@@ -52,6 +52,8 @@ export function ResourceTable<T extends { id: string }>({
 }: Props<T>) {
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
+  const [editRow, setEditRow] = useState<T | null>(null);
+  const [editOpen, setEditOpen] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: [table, orderBy, orderAsc],
@@ -73,6 +75,22 @@ export function ResourceTable<T extends { id: string }>({
       toast.success("Record created");
       qc.invalidateQueries({ queryKey: [table] });
       setOpen(false);
+    },
+    onError: (e: any) => {
+      const msg = e.response?.data?.error || e.message;
+      toast.error(msg);
+    },
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async (values: Record<string, unknown>) => {
+      await api.put(`/${table}/${values.id}`, values);
+    },
+    onSuccess: () => {
+      toast.success("Record updated");
+      qc.invalidateQueries({ queryKey: [table] });
+      setEditOpen(false);
+      setEditRow(null);
     },
     onError: (e: any) => {
       const msg = e.response?.data?.error || e.message;
@@ -142,9 +160,14 @@ export function ResourceTable<T extends { id: string }>({
                   </TableCell>
                 ))}
                 <TableCell>
-                  <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(row.id)}>
-                    Delete
-                  </Button>
+                  <div className="flex justify-end gap-2">
+                    <Button variant="ghost" size="sm" onClick={() => { setEditRow(row); setEditOpen(true); }}>
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => deleteMutation.mutate(row.id)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -186,6 +209,57 @@ export function ResourceTable<T extends { id: string }>({
                 className="bg-gradient-to-r from-primary to-secondary text-background hover:opacity-90">
                 {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Create
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Edit {title}</DialogTitle>
+            <DialogDescription>Update the details below.</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            const fd = new FormData(e.currentTarget);
+            const values: Record<string, unknown> = { id: editRow?.id };
+            for (const f of fields) {
+              const raw = fd.get(f.name);
+              if (raw === null || raw === "") continue;
+              if (f.type === "number") values[f.name] = Number(raw);
+              else values[f.name] = raw;
+            }
+            updateMutation.mutate(values);
+          }} className="space-y-3">
+            {fields.map((f) => (
+              <div key={f.name} className="space-y-1.5">
+                <Label htmlFor={`edit-${f.name}`}>{f.label}{f.required && <span className="text-destructive"> *</span>}</Label>
+                {f.type === "textarea" ? (
+                  <Textarea id={`edit-${f.name}`} name={f.name} required={f.required} placeholder={f.placeholder} defaultValue={(editRow as any)?.[f.name]} />
+                ) : f.type === "select" ? (
+                  <Select name={f.name} defaultValue={(editRow as any)?.[f.name]}>
+                    <SelectTrigger><SelectValue placeholder={f.placeholder ?? "Select…"} /></SelectTrigger>
+                    <SelectContent>
+                      {f.options?.map((o) => (<SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Input
+                    id={`edit-${f.name}`} name={f.name} type={f.type ?? "text"}
+                    required={f.required} placeholder={f.placeholder}
+                    defaultValue={(editRow as any)?.[f.name]}
+                  />
+                )}
+              </div>
+            ))}
+            <DialogFooter className="pt-2">
+              <Button type="button" variant="ghost" onClick={() => setEditOpen(false)}>Cancel</Button>
+              <Button type="submit" disabled={updateMutation.isPending}
+                className="bg-gradient-to-r from-primary to-secondary text-background hover:opacity-90">
+                {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Save
               </Button>
             </DialogFooter>
           </form>
