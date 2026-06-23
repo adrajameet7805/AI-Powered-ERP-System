@@ -1,3 +1,9 @@
+import warnings
+import logging
+warnings.filterwarnings("ignore")
+logging.getLogger("prophet").setLevel(logging.ERROR)
+logging.getLogger("cmdstanpy").setLevel(logging.ERROR)
+
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta

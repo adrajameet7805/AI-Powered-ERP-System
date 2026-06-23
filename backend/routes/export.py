@@ -71,9 +71,16 @@ def generate_pdf(title, data, filename):
 def export_excel(module):
     model_map = {
         'inventory': Product,
+        'products': Product,
         'crm': Customer,
+        'customers': Customer,
         'hrms': Employee,
-        'accounting': Account
+        'employees': Employee,
+        'accounting': Account,
+        'accounts': Account,
+        'leads': Lead,
+        'invoices': Invoice,
+        'sales_orders': SalesOrder,
     }
     
     if module not in model_map:
@@ -86,8 +93,14 @@ def export_excel(module):
 def export_pdf(module):
     model_map = {
         'sales': SalesOrder,
+        'sales_orders': SalesOrder,
         'inventory': Product,
-        'financials': Account
+        'products': Product,
+        'financials': Account,
+        'accounts': Account,
+        'customers': Customer,
+        'crm': Customer,
+        'employees': Employee,
     }
     
     if module not in model_map:

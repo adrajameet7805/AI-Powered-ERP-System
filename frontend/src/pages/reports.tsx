@@ -85,15 +85,51 @@ function ReportsPage() {
     toast.success("Exported");
   }
 
+  const API_URL = "http://localhost:5000/api";
+  const token = localStorage.getItem("access_token") ?? "";
+
+  const handleExport = async (format: "excel" | "pdf", module: string) => {
+    try {
+      const res = await api.get(`/export/${format}/${module}`, { responseType: "blob" });
+      const ext = format === "excel" ? "xlsx" : "pdf";
+      const blob = new Blob([res.data]);
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${module}_export.${ext}`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success(`${module} ${format.toUpperCase()} exported`);
+    } catch {
+      toast.error(`Export failed for ${module}`);
+    }
+  };
+
   return (
     <div className="p-6 lg:p-8">
       <PageHeader
         title="Reports & Analytics"
-        description="Cross-module insights, exportable to CSV."
+        description="Cross-module insights with Excel, PDF, and CSV exports."
         action={
-          <Button variant="outline" size="sm" onClick={() => downloadCSV(inventoryByCategory, "inventory-by-category.csv")}>
-            <Download className="mr-1 h-4 w-4" /> Export inventory
-          </Button>
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" size="sm" onClick={() => downloadCSV(inventoryByCategory, "inventory-by-category.csv")}>
+              <Download className="mr-1 h-4 w-4" /> CSV
+            </Button>
+            <a
+              href={`${API_URL}/export/excel/products?token=${token}`}
+              download
+              className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium ring-offset-background hover:bg-accent hover:text-accent-foreground"
+            >
+              <Download className="mr-1 h-4 w-4" /> Excel
+            </a>
+            <a
+              href={`${API_URL}/export/pdf/products?token=${token}`}
+              download
+              className="inline-flex items-center justify-center rounded-md border border-input bg-background px-3 py-1.5 text-sm font-medium ring-offset-background hover:bg-accent hover:text-accent-foreground"
+            >
+              <Download className="mr-1 h-4 w-4" /> PDF
+            </a>
+          </div>
         }
       />
 
@@ -150,6 +186,39 @@ function ReportsPage() {
                 <Bar dataKey="payroll" fill="oklch(0.82 0.13 210)" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* Export Downloads */}
+        <Card className="glass lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Export Data</CardTitle>
+            <CardDescription>Download module data as Excel or PDF files</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {([
+                { label: "Customers", module: "customers" },
+                { label: "Employees", module: "employees" },
+                { label: "Products", module: "products" },
+                { label: "Accounts", module: "accounts" },
+                { label: "Sales Orders", module: "sales_orders" },
+                { label: "Leads", module: "leads" },
+                { label: "Invoices", module: "invoices" },
+              ] as const).map(({ label, module }) => (
+                <div key={module} className="flex items-center justify-between rounded-lg border p-3">
+                  <span className="text-sm font-medium">{label}</span>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={() => handleExport("excel", module)}>
+                      <Download className="mr-1 h-3 w-3" /> Excel
+                    </Button>
+                    <Button variant="outline" size="sm" onClick={() => handleExport("pdf", module)}>
+                      <Download className="mr-1 h-3 w-3" /> PDF
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>
