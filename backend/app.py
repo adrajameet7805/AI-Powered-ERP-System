@@ -35,6 +35,15 @@ def create_app():
     from extensions import limiter
     limiter.init_app(app)
 
+    from flask_limiter.errors import RateLimitExceeded
+
+    @app.errorhandler(RateLimitExceeded)
+    def handle_rate_limit(e):
+        return jsonify({
+            "error": "Too many requests. Please wait before trying again.",
+            "retry_after": str(e.description)
+        }), 429
+
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
     app.register_blueprint(inventory_bp, url_prefix='/api/inventory')

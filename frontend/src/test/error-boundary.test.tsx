@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { ErrorBoundary } from "../components/error-boundary";
-import React from "react";
 
 function Buggy() {
   throw new Error("Test Error");

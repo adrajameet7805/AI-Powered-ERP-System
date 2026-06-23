@@ -72,14 +72,10 @@ export function ResourceTable<T extends { id: string }>({
   const { data: responseData, isLoading } = useQuery({
     queryKey: [table, orderBy, orderAsc, page, debouncedSearch],
     queryFn: async () => {
-      try {
-        const res = await api.get(`/${table}?orderBy=${orderBy}&orderAsc=${orderAsc}&page=${page}&per_page=50&search=${encodeURIComponent(debouncedSearch)}`);
-        if (Array.isArray(res.data)) return res.data;
-        if (Array.isArray(res.data?.data)) return res.data.data;
-        return [];
-      } catch (e) {
-        return null;
-      }
+      const res = await api.get(`/${table}`);
+      if (Array.isArray(res.data)) return res.data;
+      if (Array.isArray(res.data?.data)) return res.data.data;
+      return [];
     },
   });
 

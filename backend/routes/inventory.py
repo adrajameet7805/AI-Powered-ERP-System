@@ -16,8 +16,29 @@ def get_inventory():
 @inventory_bp.route('/products', methods=['GET'])
 @token_required(roles=["Admin", "Manager", "Employee"])
 def get_products():
-    products = Product.query.all()
-    return jsonify([p.to_dict() for p in products])
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 50, type=int)
+    search = request.args.get('search', '', type=str)
+
+    query = Product.query
+    if search:
+        query = query.filter(
+            db.or_(
+                Product.name.ilike(f'%{search}%'),
+                Product.sku.ilike(f'%{search}%'),
+                Product.category.ilike(f'%{search}%')
+            )
+        )
+    paginated = query.order_by(Product.id.desc()).paginate(
+        page=page, per_page=per_page, error_out=False)
+
+    return jsonify({
+        "data": [p.to_dict() for p in paginated.items],
+        "total": paginated.total,
+        "page": page,
+        "pages": paginated.pages,
+        "per_page": per_page
+    }), 200
 
 @inventory_bp.route('/products', methods=['POST'])
 @token_required(roles=["Admin", "Manager"])

@@ -1,7 +1,6 @@
 import { renderHook } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import { AuthProvider, useAuth } from "../hooks/use-auth";
-import React from "react";
 
 const mockStorage = {
   getItem: vi.fn(),
