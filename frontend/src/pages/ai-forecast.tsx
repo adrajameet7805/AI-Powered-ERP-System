@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { Brain, Loader2, Sparkles, AlertTriangle, TrendingUp, PackageCheck, TrendingDown } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2, Sparkles, AlertTriangle, TrendingUp, PackageCheck, TrendingDown, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/services/api";
 
@@ -28,29 +27,52 @@ const recoStyle = {
 };
 
 function AIForecastPage() {
-  const [result, setResult] = useState<{ summary: string; insights: Insight[] } | null>(null);
-
-  const mutation = useMutation({
-    mutationFn: async () => {
+  const { data: result, isLoading, isError, refetch, isFetching } = useQuery({
+    queryKey: ['forecast'],
+    queryFn: async () => {
       const { data } = await api.get('/forecast');
       return {
         summary: data.summary || data.insights || "Demand is expected to rise by 15% next month based on historical data.",
-        insights: data.sku_insights || [
-            {
-                sku: "SKU-100",
-                name: "Enterprise Server Gen 10",
-                currentStock: 150,
-                forecast30d: data.demand || 450,
-                recommendation: "reorder_urgent",
-                reasoning: "Stock will deplete in 10 days.",
-                suggestedOrderQty: data.reorder_quantity || 200
-            }
-        ]
+        insights: data.sku_insights || [{
+          sku: "SKU-100",
+          name: "Enterprise Server Gen 10",
+          currentStock: 150,
+          forecast30d: data.demand || 450,
+          recommendation: "reorder_urgent" as const,
+          reasoning: "Stock will deplete in 10 days.",
+          suggestedOrderQty: data.reorder_quantity || 200
+        }]
       } as { summary: string; insights: Insight[] };
     },
-    onSuccess: (data) => { setResult(data); toast.success(`Analyzed ${data.insights.length} SKUs`); },
-    onError: (e: Error) => toast.error(e.message),
+    staleTime: 5 * 60 * 1000,  // cache for 5 minutes
   });
+
+  if (isLoading) return (
+    <div className="p-6 lg:p-8">
+      <PageHeader
+        title="AI Inventory Forecasting"
+        description="Predict 30-day demand, surface reorder priorities and flag overstock risks."
+      />
+      <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <p className="text-sm text-muted-foreground">
+          Running AI forecast analysis on 15 products...
+        </p>
+      </div>
+    </div>
+  );
+
+  if (isError) return (
+    <div className="p-6 lg:p-8">
+      <PageHeader
+        title="AI Inventory Forecasting"
+        description="Predict 30-day demand, surface reorder priorities and flag overstock risks."
+      />
+      <div className="text-center text-destructive p-8">
+        Failed to load forecast. Please try again.
+      </div>
+    </div>
+  );
 
   return (
     <div className="p-6 lg:p-8">
@@ -58,34 +80,16 @@ function AIForecastPage() {
         title="AI Inventory Forecasting"
         description="Predict 30-day demand, surface reorder priorities and flag overstock risks."
         action={
-          <Button onClick={() => mutation.mutate()} disabled={mutation.isPending}
-            className="bg-gradient-to-r from-primary to-secondary text-background hover:opacity-90">
-            {mutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-            {mutation.isPending ? "Analyzing…" : "Run forecast"}
+          <Button
+            onClick={() => { refetch(); toast.info("Re-running forecast..."); }}
+            disabled={isFetching}
+            className="bg-gradient-to-r from-primary to-secondary text-background hover:opacity-90"
+          >
+            {isFetching ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+            {isFetching ? "Analyzing…" : "Re-run forecast"}
           </Button>
         }
       />
-
-      {!result && !mutation.isPending && (
-        <Card className="glass">
-          <CardContent className="py-16 text-center">
-            <Brain className="mx-auto h-10 w-10 text-primary" />
-            <h3 className="mt-4 text-lg font-semibold">Ready when you are</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Click <strong>Run forecast</strong> to analyze your current SKU stock levels.
-            </p>
-          </CardContent>
-        </Card>
-      )}
-
-      {mutation.isPending && (
-        <Card className="glass">
-          <CardContent className="py-16 text-center">
-            <Loader2 className="mx-auto h-10 w-10 animate-spin text-primary" />
-            <p className="mt-4 text-sm text-muted-foreground">Running demand forecast across your catalog…</p>
-          </CardContent>
-        </Card>
-      )}
 
       {result && (
         <div className="space-y-6">
@@ -152,3 +156,4 @@ function AIForecastPage() {
 }
 
 export default AIForecastPage;
+

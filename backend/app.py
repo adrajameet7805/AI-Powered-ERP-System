@@ -69,6 +69,18 @@ def create_app():
     def handle_exception(e):
         return jsonify({"error": str(e)}), 500
 
+    # Pre-warm Prophet so first /api/forecast/ call is not slow
+    try:
+        import threading
+        def _warm():
+            try:
+                from prophet import Prophet  # noqa: F401
+            except Exception:
+                pass
+        threading.Thread(target=_warm, daemon=True).start()
+    except Exception:
+        pass
+
     return app
 
 if __name__ == '__main__':

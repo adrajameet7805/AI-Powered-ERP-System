@@ -1,8 +1,15 @@
 import warnings
 import logging
+import os
+
 warnings.filterwarnings("ignore")
+os.environ["CMDSTAN_VERBOSE"] = "false"
 logging.getLogger("prophet").setLevel(logging.ERROR)
 logging.getLogger("cmdstanpy").setLevel(logging.ERROR)
+
+# Silence plotly import error from prophet
+import logging as _log
+_log.getLogger("prophet.plot").setLevel(_log.CRITICAL)
 
 import pandas as pd
 import numpy as np
