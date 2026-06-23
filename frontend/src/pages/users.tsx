@@ -16,7 +16,7 @@ function UsersPage() {
     queryKey: ["profiles-with-roles"],
     queryFn: async () => {
       const { data } = await api.get("/auth/users");
-      return data;
+      return data ?? [];
     },
   });
 

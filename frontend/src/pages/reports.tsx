@@ -17,15 +17,15 @@ const COLORS = ["oklch(0.82 0.13 210)","oklch(0.72 0.15 295)","oklch(0.72 0.16 1
 function ReportsPage() {
   const { data: products } = useQuery({
     queryKey: ["report-products"],
-    queryFn: async () => (await api.get(`/${"products"}`)).data ?? [],
+    queryFn: async () => (await api.get('/inventory/products')).data?.data ?? [],
   });
   const { data: accounts } = useQuery({
     queryKey: ["report-accounts"],
-    queryFn: async () => (await api.get(`/${"accounts"}`)).data ?? [],
+    queryFn: async () => (await api.get('/accounts')).data?.data ?? [],
   });
   const { data: employees } = useQuery({
     queryKey: ["report-employees"],
-    queryFn: async () => (await api.get(`/${"employees"}`)).data ?? [],
+    queryFn: async () => (await api.get('/employees')).data?.data ?? [],
   });
 
   let inventoryByCategory: { name: string; value: number }[] = [];

@@ -8,8 +8,8 @@ function AccountingPage() {
   const { data: accounts } = useQuery({
     queryKey: ["accounts-totals"],
     queryFn: async () => {
-      const { data } = await api.get(`/${"accounts"}`);
-      return data;
+      const res = await api.get('/accounts');
+      return res.data?.data ?? [];
     },
   });
 

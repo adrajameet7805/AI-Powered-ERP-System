@@ -16,7 +16,7 @@ function PurchasePage() {
 
   const { data: suppliers } = useQuery({
     queryKey: ["suppliers"],
-    queryFn: async () => (await api.get('/suppliers')).data || [],
+    queryFn: async () => (await api.get('/suppliers')).data?.data ?? [],
   });
 
   const supplierOptions = (suppliers || []).map((s: any) => ({

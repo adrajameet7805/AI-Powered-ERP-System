@@ -18,7 +18,7 @@ function NotificationsPage() {
     queryKey: ["notifications", user?.id],
     queryFn: async () => {
       const { data } = await api.get("/notifications");
-      return data as N[];
+      return (data?.data ?? []) as N[];
     },
     enabled: !!user,
   });

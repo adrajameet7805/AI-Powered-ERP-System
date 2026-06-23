@@ -73,8 +73,8 @@ export function ResourceTable<T extends { id: string }>({
     queryKey: [table, orderBy, orderAsc, page, debouncedSearch],
     queryFn: async () => {
       try {
-        const { data } = await api.get(`/${table}?orderBy=${orderBy}&orderAsc=${orderAsc}&page=${page}&per_page=50&search=${encodeURIComponent(debouncedSearch)}`);
-        return data as { data: T[], total: number, page: number, pages: number, per_page: number } | T[];
+        const res = await api.get(`/${table}?orderBy=${orderBy}&orderAsc=${orderAsc}&page=${page}&per_page=50&search=${encodeURIComponent(debouncedSearch)}`);
+        return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
       } catch (e) {
         return null;
       }
@@ -182,7 +182,7 @@ export function ResourceTable<T extends { id: string }>({
                 {emptyMessage}
               </TableCell></TableRow>
             )}
-            {rows.map((row) => (
+            {(Array.isArray(rows) ? rows : []).map((row) => (
               <TableRow key={row.id} className="hover:bg-muted/20">
                 {columns.map((c) => (
                   <TableCell key={c.key} className="text-sm">

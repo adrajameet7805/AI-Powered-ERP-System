@@ -10,8 +10,8 @@ function InventoryPage() {
   const { data: products } = useQuery({
     queryKey: ["products-summary"],
     queryFn: async () => {
-      const { data } = await api.get(`/inventory/products`);
-      return data;
+      const res = await api.get('/inventory/products');
+      return res.data?.data ?? [];
     },
   });
 
