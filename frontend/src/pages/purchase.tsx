@@ -16,10 +16,13 @@ function PurchasePage() {
 
   const { data: suppliers } = useQuery({
     queryKey: ["suppliers"],
-    queryFn: async () => (await api.get('/suppliers')).data?.data ?? [],
+    queryFn: async () => {
+      const res = await api.get('/suppliers');
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+    },
   });
 
-  const supplierOptions = (suppliers || []).map((s: any) => ({
+  const supplierOptions = (suppliers || []).map((s: Supplier) => ({
     label: s.name,
     value: s.id.toString(),
   }));

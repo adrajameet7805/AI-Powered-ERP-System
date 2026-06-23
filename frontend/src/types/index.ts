@@ -1,10 +1,19 @@
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  page: number;
+  pages: number;
+  per_page: number;
+}
+
 export type Account = { id: string; name: string; account_type: string; balance: number; created_at: string; };
 export type Txn = { id: string; account_id: string; txn_type: string; amount: number; reference: string; description: string; txn_date: string; created_at: string; account_name?: string; };
 export type Expense = { id: string; category: string; amount: number; description: string; expense_date: string; status: string; created_at: string; };
 export type Asset = { id: string; name: string; category: string; location: string; purchase_date: string; cost: number; status: string; created_at: string; depreciation_rate?: number; };
 export type Customer = { id: string; name: string; company: string; email: string; phone: string; created_at: string; status?: string; };
 export type Lead = { id: string; name: string; email: string; source: string; stage: string; value: number; created_at: string; };
-export type Emp = { id: string; employee_code: string; full_name: string; email: string; department: string; position: string; hire_date: string; salary: number; status: string; created_at: string; };
+export type Employee = { id: string; employee_code: string; full_name: string; email: string; department: string; position: string; hire_date: string; salary: number; status: string; created_at: string; };
+export type Emp = Employee; // Alias for existing references
 export type Att = { id: string; employee_id: string; attendance_date: string; check_in: string; check_out: string; status: string; created_at: string; employee_name?: string; };
 export type Leave = { id: string; employee_id: string; leave_type: string; start_date: string; end_date: string; reason: string; status: string; created_at: string; employee_name?: string; };
 export type Product = { id: string; sku: string; name: string; category: string; unit_price: number; cost_price: number; reorder_level: number; current_stock: number; status: string; created_at: string; };
@@ -17,3 +26,5 @@ export type Supplier = { id: string; name: string; email: string; phone: string;
 export type PO = { id: string; supplier_id: string; order_date: string; status: string; total_amount: number; notes: string; created_at: string; supplier_name?: string; };
 export type SO = { id: string; customer_id: string; order_date: string; status: string; total_amount: number; notes: string; created_at: string; customer_name?: string; };
 export type Invoice = { id: string; customer_id: string; amount: number; paid_amount: number; due_date: string; status: string; created_at: string; customer_name?: string; };
+export type Ticket = { id: string; subject: string; status: string; priority: string; created_at: string; };
+export type Interaction = { id: string; type: string; notes: string; created_at: string; };

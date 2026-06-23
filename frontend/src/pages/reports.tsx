@@ -1,5 +1,5 @@
-
 import { useQuery } from "@tanstack/react-query";
+import { Product, Account, Employee } from "@/types";
 import {
   Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer,
   Tooltip, XAxis, YAxis, Legend,
@@ -17,15 +17,24 @@ const COLORS = ["oklch(0.82 0.13 210)","oklch(0.72 0.15 295)","oklch(0.72 0.16 1
 function ReportsPage() {
   const { data: products } = useQuery({
     queryKey: ["report-products"],
-    queryFn: async () => (await api.get('/inventory/products')).data?.data ?? [],
+    queryFn: async () => {
+      const res = await api.get('/inventory/products');
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+    },
   });
   const { data: accounts } = useQuery({
     queryKey: ["report-accounts"],
-    queryFn: async () => (await api.get('/accounts')).data?.data ?? [],
+    queryFn: async () => {
+      const res = await api.get('/accounts');
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+    },
   });
   const { data: employees } = useQuery({
     queryKey: ["report-employees"],
-    queryFn: async () => (await api.get('/employees')).data?.data ?? [],
+    queryFn: async () => {
+      const res = await api.get('/employees');
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+    },
   });
 
   let inventoryByCategory: { name: string; value: number }[] = [];
@@ -34,7 +43,7 @@ function ReportsPage() {
 
   try {
     inventoryByCategory = Object.entries(
-      (products ?? []).reduce((acc: Record<string, number>, p: any) => {
+      (products ?? []).reduce((acc: Record<string, number>, p: Product) => {
         const k = p.category ?? "Uncategorized";
         acc[k] = (acc[k] ?? 0) + Number(p.current_stock) * Number(p.unit_price);
         return acc;
@@ -42,14 +51,14 @@ function ReportsPage() {
     ).map(([name, value]) => ({ name, value: Math.round(value as number) }));
 
     balanceByType = Object.entries(
-      (accounts ?? []).reduce((acc: Record<string, number>, a: any) => {
+      (accounts ?? []).reduce((acc: Record<string, number>, a: Account) => {
         acc[a.account_type] = (acc[a.account_type] ?? 0) + Number(a.balance);
         return acc;
       }, {} as Record<string, number>),
     ).map(([name, value]) => ({ name, value: value as number }));
 
     headcountByDept = Object.entries(
-      (employees ?? []).reduce((acc: Record<string, { count: number; payroll: number }>, e: any) => {
+      (employees ?? []).reduce((acc: Record<string, { count: number; payroll: number }>, e: Employee) => {
         const k = e.department ?? "Other";
         acc[k] = acc[k] ?? { count: 0, payroll: 0 };
         acc[k].count += 1;

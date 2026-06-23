@@ -178,7 +178,7 @@ export default function Dashboard() {
               <div className="py-10 flex justify-center"><Loader2 className="animate-spin text-muted-foreground" /></div>
             ) : (
               <ul className="divide-y divide-border/60">
-                {(activity || []).map((a: any, i: number) => (
+                {(activity || []).map((a: { tag: string; who: string; what: string; when: string }, i: number) => (
                   <li key={i} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
                     <div className={`mt-1 h-2 w-2 rounded-full ${a.tag === "AI" ? "bg-secondary" : "bg-primary"}`} />
                     <div className="flex-1">

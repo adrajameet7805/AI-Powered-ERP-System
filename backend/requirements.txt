@@ -11,3 +11,6 @@ prophet
 reportlab
 openpyxl
 Flask-Limiter
+pytest>=8.0
+pytest-flask>=1.3
+pytest-cov>=5.0

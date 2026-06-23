@@ -17,8 +17,9 @@ function NotificationsPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["notifications", user?.id],
     queryFn: async () => {
-      const { data } = await api.get("/notifications");
-      return (data?.data ?? []) as N[];
+      const res = await api.get("/notifications");
+      const resolved = Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
+      return resolved as N[];
     },
     enabled: !!user,
   });

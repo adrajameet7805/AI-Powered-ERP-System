@@ -15,8 +15,8 @@ function UsersPage() {
   const { data, isLoading } = useQuery({
     queryKey: ["profiles-with-roles"],
     queryFn: async () => {
-      const { data } = await api.get("/auth/users");
-      return data ?? [];
+      const res = await api.get("/auth/users");
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
     },
   });
 
@@ -60,14 +60,14 @@ function UsersPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data?.map((p: any) => (
+                  {data?.map((p: { id: string; full_name: string; email: string; roles: string[]; created_at: string; }) => (
                     <TableRow key={p.id}>
                       <TableCell className="text-sm font-medium">{p.full_name ?? "—"}</TableCell>
                       <TableCell className="text-sm">{p.email ?? "—"}</TableCell>
                       <TableCell className="text-sm text-muted-foreground">{new Date(p.created_at).toLocaleDateString()}</TableCell>
                       <TableCell>
                         {p.roles.length > 0
-                          ? p.roles.map((r: any) => <Badge key={r} variant="outline" className="mr-1">{r}</Badge>)
+                          ? p.roles.map((r: string) => <Badge key={r} variant="outline" className="mr-1">{r}</Badge>)
                           : <span className="text-xs text-muted-foreground">none</span>}
                       </TableCell>
                     </TableRow>

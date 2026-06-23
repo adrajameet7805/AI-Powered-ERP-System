@@ -11,14 +11,14 @@ function InventoryPage() {
     queryKey: ["products-summary"],
     queryFn: async () => {
       const res = await api.get('/inventory/products');
-      return res.data?.data ?? [];
+      return Array.isArray(res.data) ? res.data : (res.data?.data ?? []);
     },
   });
 
   const total = products?.length ?? 0;
-  const lowStock = products?.filter((p: any) => p.current_stock <= p.reorder_level).length ?? 0;
-  const totalUnits = products?.reduce((s: number, p: any) => s + p.current_stock, 0) ?? 0;
-  const overstock = products?.filter((p: any) => p.current_stock > p.reorder_level * 8).length ?? 0;
+  const lowStock = products?.filter((p: Product) => p.current_stock <= p.reorder_level).length ?? 0;
+  const totalUnits = products?.reduce((s: number, p: Product) => s + p.current_stock, 0) ?? 0;
+  const overstock = products?.filter((p: Product) => p.current_stock > p.reorder_level * 8).length ?? 0;
 
   return (
     <div className="p-6 lg:p-8">
