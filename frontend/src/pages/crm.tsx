@@ -1,4 +1,4 @@
-import { ResourceTable, type ColumnDef, type FieldDef } from "@/components/resource-table";
+import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
 import { Customer, Lead } from "@/types";
 
@@ -16,7 +16,7 @@ function CRMPage() {
             { key: "company", label: "Company" },
             { key: "email", label: "Email" },
             { key: "phone", label: "Phone" },
-            { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status} /> },
+            { key: "status", label: "Status", render: (r) => <StatusBadge status={r.status || "active"} /> },
           ]}
           fields={[
             { name: "name", label: "Name", required: true },

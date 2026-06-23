@@ -8,13 +8,12 @@ function AccountingPage() {
   const { data: accounts } = useQuery({
     queryKey: ["accounts-totals"],
     queryFn: async () => {
-      const { data, error } = await api.get(`/${"accounts"}`);
-      if (error) throw error;
+      const { data } = await api.get(`/${"accounts"}`);
       return data;
     },
   });
 
-  const sum = (t: string) => accounts?.filter((a) => a.account_type === t).reduce((s, a) => s + Number(a.balance), 0) ?? 0;
+  const sum = (t: string) => accounts?.filter((a: any) => a.account_type === t).reduce((s: number, a: any) => s + Number(a.balance), 0) ?? 0;
   const assets = sum("asset"), liab = sum("liability"), eq = sum("equity"), rev = sum("revenue"), exp = sum("expense");
   const profit = rev - exp;
 

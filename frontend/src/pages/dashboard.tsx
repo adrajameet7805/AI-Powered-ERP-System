@@ -17,22 +17,48 @@ export default function Dashboard() {
 
   const { data: kpis, isLoading: kpiLoading } = useQuery({
     queryKey: ['dashboard', 'kpis'],
-    queryFn: async () => (await api.get('/dashboard/kpis')).data
+    queryFn: async () => {
+      try {
+        return (await api.get('/dashboard/kpis')).data;
+      } catch {
+        return { total_revenue: 0, total_customers: 0,
+                 total_products: 0, total_employees: 0,
+                 revenue_change_pct: 0, customer_change_pct: 0 };
+      }
+    }
   });
 
   const { data: revenueData, isLoading: revLoading } = useQuery({
     queryKey: ['dashboard', 'revenue-chart'],
-    queryFn: async () => (await api.get('/dashboard/revenue-chart')).data
+    queryFn: async () => {
+      try {
+        return (await api.get('/dashboard/revenue-chart')).data;
+      } catch {
+        return [];
+      }
+    }
   });
 
   const { data: inventoryData, isLoading: invLoading } = useQuery({
     queryKey: ['dashboard', 'inventory-chart'],
-    queryFn: async () => (await api.get('/dashboard/inventory-chart')).data
+    queryFn: async () => {
+      try {
+        return (await api.get('/dashboard/inventory-chart')).data;
+      } catch {
+        return [];
+      }
+    }
   });
 
   const { data: activity, isLoading: actLoading } = useQuery({
     queryKey: ['dashboard', 'activity-feed'],
-    queryFn: async () => (await api.get('/dashboard/activity-feed')).data
+    queryFn: async () => {
+      try {
+        return (await api.get('/dashboard/activity-feed')).data;
+      } catch {
+        return [];
+      }
+    }
   });
 
   return (

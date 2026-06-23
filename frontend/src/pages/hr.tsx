@@ -1,6 +1,6 @@
 import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
-import { type ColumnDef, type FieldDef } from "@/components/resource-table";
+import { type ColumnDef } from "@/components/resource-table";
 import { Emp, Att, Leave } from "@/types";
 import { useAuth } from "@/hooks/use-auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Loader2, TrendingUp } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 
 import api from "@/services/api";
-import { ResourceTable, type ColumnDef, type FieldDef } from "@/components/resource-table";
+import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatPill, StatusBadge } from "@/components/module-shell";
 import { Product, Warehouse, Movement } from "@/types";
 
@@ -10,16 +10,15 @@ function InventoryPage() {
   const { data: products } = useQuery({
     queryKey: ["products-summary"],
     queryFn: async () => {
-      const { data, error } = await api.get(`/inventory/products`);
-      if (error) throw error;
+      const { data } = await api.get(`/inventory/products`);
       return data;
     },
   });
 
   const total = products?.length ?? 0;
-  const lowStock = products?.filter((p) => p.current_stock <= p.reorder_level).length ?? 0;
-  const totalUnits = products?.reduce((s, p) => s + p.current_stock, 0) ?? 0;
-  const overstock = products?.filter((p) => p.current_stock > p.reorder_level * 8).length ?? 0;
+  const lowStock = products?.filter((p: any) => p.current_stock <= p.reorder_level).length ?? 0;
+  const totalUnits = products?.reduce((s: number, p: any) => s + p.current_stock, 0) ?? 0;
+  const overstock = products?.filter((p: any) => p.current_stock > p.reorder_level * 8).length ?? 0;
 
   return (
     <div className="p-6 lg:p-8">

@@ -1,4 +1,4 @@
-import { ResourceTable, type ColumnDef, type FieldDef } from "@/components/resource-table";
+import { ResourceTable } from "@/components/resource-table";
 import { PageHeader, StatusBadge } from "@/components/module-shell";
 import { Asset } from "@/types";
 

@@ -74,7 +74,7 @@ function NotificationsPage() {
                   <span className="rounded bg-muted/40 px-1.5 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">{n.type}</span>
                 </div>
                 {n.message && <p className="mt-0.5 text-sm text-muted-foreground">{n.message}</p>}
-                <span className="mt-1 block text-xs text-muted-foreground">{new Date(n.created_at).toLocaleString()}</span>
+                <span className="mt-1 block text-xs text-muted-foreground">{n.created_at ? new Date(n.created_at).toLocaleString() : ""}</span>
               </div>
               {!n.read && (
                 <Button size="sm" variant="ghost" onClick={() => markRead.mutate(n.id)}>

@@ -28,30 +28,41 @@ function ReportsPage() {
     queryFn: async () => (await api.get(`/${"employees"}`)).data ?? [],
   });
 
-  const inventoryByCategory = Object.entries(
-    (products ?? []).reduce<Record<string, number>>((acc, p) => {
-      const k = p.category ?? "Uncategorized";
-      acc[k] = (acc[k] ?? 0) + Number(p.current_stock) * Number(p.unit_price);
-      return acc;
-    }, {}),
-  ).map(([name, value]) => ({ name, value: Math.round(value) }));
+  let inventoryByCategory: { name: string; value: number }[] = [];
+  let balanceByType: { name: string; value: number }[] = [];
+  let headcountByDept: { name: string; headcount: number; payroll: number }[] = [];
 
-  const balanceByType = Object.entries(
-    (accounts ?? []).reduce<Record<string, number>>((acc, a) => {
-      acc[a.account_type] = (acc[a.account_type] ?? 0) + Number(a.balance);
-      return acc;
-    }, {}),
-  ).map(([name, value]) => ({ name, value }));
+  try {
+    inventoryByCategory = Object.entries(
+      (products ?? []).reduce((acc: Record<string, number>, p: any) => {
+        const k = p.category ?? "Uncategorized";
+        acc[k] = (acc[k] ?? 0) + Number(p.current_stock) * Number(p.unit_price);
+        return acc;
+      }, {} as Record<string, number>),
+    ).map(([name, value]) => ({ name, value: Math.round(value as number) }));
 
-  const headcountByDept = Object.entries(
-    (employees ?? []).reduce<Record<string, { count: number; payroll: number }>>((acc, e) => {
-      const k = e.department ?? "Other";
-      acc[k] = acc[k] ?? { count: 0, payroll: 0 };
-      acc[k].count += 1;
-      acc[k].payroll += Number(e.salary);
-      return acc;
-    }, {}),
-  ).map(([name, v]: [string, { count: number; payroll: number }]) => ({ name, headcount: v.count, payroll: v.payroll }));
+    balanceByType = Object.entries(
+      (accounts ?? []).reduce((acc: Record<string, number>, a: any) => {
+        acc[a.account_type] = (acc[a.account_type] ?? 0) + Number(a.balance);
+        return acc;
+      }, {} as Record<string, number>),
+    ).map(([name, value]) => ({ name, value: value as number }));
+
+    headcountByDept = Object.entries(
+      (employees ?? []).reduce((acc: Record<string, { count: number; payroll: number }>, e: any) => {
+        const k = e.department ?? "Other";
+        acc[k] = acc[k] ?? { count: 0, payroll: 0 };
+        acc[k].count += 1;
+        acc[k].payroll += Number(e.salary);
+        return acc;
+      }, {} as Record<string, { count: number; payroll: number }>),
+    ).map(([name, v]) => {
+      const typed = v as { count: number; payroll: number };
+      return { name, headcount: typed.count, payroll: typed.payroll };
+    });
+  } catch (error) {
+    console.error("Error calculating report metrics:", error);
+  }
 
   function downloadCSV(rows: Record<string, unknown>[], filename: string) {
     if (!rows.length) return toast.info("No data to export");
