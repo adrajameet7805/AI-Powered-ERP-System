@@ -64,6 +64,10 @@ frontend/.env
 # Build outputs
 frontend/dist/
 frontend/node_modules/
+frontend/vite.config.js
+frontend/vite.config.js.timestamp-*
+*.tsbuildinfo
+*.mjs
 
 # OS files
 .DS_Store

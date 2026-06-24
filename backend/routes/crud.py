@@ -24,7 +24,7 @@ def create_crud_routes(bp, model, route_name, roles=None, skip_get=False):
                 if search:
                     from sqlalchemy import or_
                     string_cols = [c for c in model.__table__.columns
-                                   if str(c.type) in ('VARCHAR', 'TEXT')]
+                                   if isinstance(c.type, (db.String, db.Text))]
                     if string_cols:
                         query = query.filter(or_(*[c.ilike(f'%{search}%')
                                                    for c in string_cols]))

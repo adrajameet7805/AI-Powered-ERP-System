@@ -11,12 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./database/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
+      - ../database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ../database/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
 
   backend:
     build:
-      context: ./backend
+      context: .
     restart: unless-stopped
     ports:
       - "5000:5000"
@@ -34,7 +34,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ../frontend
     ports:
       - "8080:8080"
     environment:

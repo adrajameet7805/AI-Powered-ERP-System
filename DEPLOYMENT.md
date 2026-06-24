@@ -11,7 +11,7 @@ SynergyBeam ERP is fully containerized using Docker and Docker Compose. This gui
 ## Production Deployment (Docker)
 
 1. **Configure Environment Variables**
-   Create a `.env` file based on `.env.production` in the root directory:
+   Create a `.env` file based on `backend/.env.production` in the `backend/` directory:
    ```env
    SECRET_KEY=your-secure-secret-key
    JWT_SECRET_KEY=your-secure-jwt-key
@@ -19,9 +19,9 @@ SynergyBeam ERP is fully containerized using Docker and Docker Compose. This gui
    ```
 
 2. **Build and Start Containers**
-   Run the following command to spin up the PostgreSQL database, Python backend, and React frontend:
+   Run the following command from the project root to spin up the PostgreSQL database, Python backend, and React frontend:
    ```bash
-   docker-compose up -d --build
+   docker-compose -f backend/docker-compose.yml up -d --build
    ```
 
 3. **Database Initialization**
