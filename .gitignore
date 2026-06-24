@@ -7,6 +7,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node modules and build outputs
 node_modules
 dist
 dist-ssr
@@ -31,14 +32,39 @@ dist-ssr
 *.sln
 *.sw?
 
-# Python
+# Virtual environments
+venv/
+.venv/
+fresh_venv/
+testenv/
 backend/venv/
 backend/fresh_venv/
-venv/
-fresh_venv/
+backend/testenv/
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+
+# Database files (never commit)
 *.db
+*.sqlite
+*.sqlite3
+
+# Screenshots (keep locally, not in git)
+screenshots/
+
+# Environment files (never commit)
 .env
-.env.production
+.env.local
+backend/.env
+frontend/.env
+
+# Build outputs
+frontend/dist/
+frontend/node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db

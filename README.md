@@ -4,113 +4,102 @@
 
 # ⚡ SynergyBeam ERP
 
-**An AI-powered Enterprise Resource Planning system built with React, Flask, and Facebook Prophet.**
+**A full-stack AI-powered Enterprise Resource Planning system.**
+**React · Flask · PostgreSQL · Facebook Prophet · Docker**
 
-[![Version](https://img.shields.io/badge/Version-2.0.0-blueviolet?style=for-the-badge&logo=github)](https://github.com/adrajameet7805)
-[![License: MIT](https://img.shields.io/badge/License-MIT-success?style=for-the-badge&logo=opensourceinitiative)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blueviolet?style=for-the-badge&logo=github)](https://github.com/adrajameet7805)
+[![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](https://github.com/adrajameet7805/AI-Powered-ERP-System)
 [![Build](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/adrajameet7805/AI-Powered-ERP-System/actions)
-[![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-blue?style=for-the-badge&logo=git)](https://github.com/adrajameet7805/AI-Powered-ERP-System/pulls)
+[![APIs](https://img.shields.io/badge/APIs-24%2F24_Passing-success?style=for-the-badge)](https://github.com/adrajameet7805/AI-Powered-ERP-System)
 [![Made With Love](https://img.shields.io/badge/Made%20With-%E2%9D%A4%EF%B8%8F-red?style=for-the-badge)](https://github.com/adrajameet7805)
 
 <br/>
 
-[![React](https://img.shields.io/badge/React-18.x-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript)](https://typescriptlang.org/)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-v4-cyan?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
-[![Flask](https://img.shields.io/badge/Flask-3.0-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=for-the-badge&logo=postgresql)](https://postgresql.org/)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://docker.com/)
-[![Prophet](https://img.shields.io/badge/AI-Prophet+SKLearn-orange?style=for-the-badge&logo=python)](https://facebook.github.io/prophet/)
-[![JWT](https://img.shields.io/badge/Security-JWT+RBAC-critical?style=for-the-badge&logo=jsonwebtokens)](https://jwt.io/)
-
-<br/>
-
-**[Quick Start](#-quick-start) · [Modules](#-modules) · [Role System](#-role-based-access-control) · [API](#-api-reference) · [Deployment](#-deployment)**
+[![React](https://img.shields.io/badge/React-18-blue?style=flat-square&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)](https://typescriptlang.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-black?style=flat-square&logo=flask)](https://flask.palletsprojects.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue?style=flat-square&logo=postgresql)](https://postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker)](https://docker.com/)
+[![Prophet](https://img.shields.io/badge/AI-Prophet+SKLearn-orange?style=flat-square&logo=python)](https://facebook.github.io/prophet/)
 
 <br/>
 
 <a href="https://github.com/adrajameet7805/AI-Powered-ERP-System">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=18&duration=3000&pause=1000&color=38BDF8&center=true&vCenter=true&width=700&lines=27%2F27+API+Endpoints+Passing+✅;10%2F10+RBAC+Security+Checks+Passing+✅;Live+Dashboard+KPIs+from+Real+Database;AI+Demand+Forecasting+with+Facebook+Prophet;React+%2B+Flask+%2B+PostgreSQL+%2B+Docker" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=18&duration=3000&pause=800&color=38BDF8&center=true&vCenter=true&width=750&lines=24%2F24+APIs+Passing+✅;13+Business+Modules+in+One+Platform;Live+KPIs+from+Real+Database;AI+Demand+Forecasting+with+Prophet;RFQ+%7C+GST+Invoices+%7C+Procurement+Workflow" alt="Typing SVG" />
 </a>
 
 <br/>
 
->
+
 </div>
 
 <br/>
 
 ---
 
-<br/>
+## 📊 Live Audit
 
-## 📊 Live Audit Results
+> Tested June 2026 against real running backend
 
-> Last audited: June 2026 — tested against real running backend
-
-| Category | Result |
+| Check | Result |
 | :--- | :--- |
-| 📡 API Endpoints | **27 / 27 passing** — all modules 200 OK, avg 1–10ms |
-| 🔐 RBAC Security | **10 / 10 checks passing** — roles correctly enforced |
-| ✏️ Input Validation | **5 / 5 passing** — required fields enforced on all models |
-| ✏️ PUT / Edit | **3 / 3 passing** — edit + 404 on missing + delete working |
-| 📄 Pagination | **5 / 5 passing** — page, per_page, search all work |
-| 🛡️ Rate Limiting | **Passing** — triggers at attempt 3 → HTTP 429 |
-| 🤖 AI Forecast | **Passing** — 15 SKUs analysed, ~1–3 seconds |
-| 🏗️ Docker | **Present** — docker-compose.yml exists |
-| 🔄 CI / CD | **Present** — GitHub Actions ci.yml exists |
+| API Endpoints | **24 / 24 passing** — avg 1–10ms |
+| RBAC Security | **10 / 10 passing** |
+| Input Validation | **5 / 5 passing** |
+| PUT / Edit | **Passing** |
+| Pagination + Search | **Passing** |
+| Rate Limiting | **Passing** — triggers at attempt 3 → HTTP 429 |
+| AI Forecast | **Passing** — ~3s first call, ~1s cached |
+| CI / CD | **GitHub Actions** — test + build on every push |
 
 <br/>
 
 ---
-
-<br/>
 
 ## 📖 About
 
-**SynergyBeam ERP** is a full-stack business management system that unifies 9 core departments — CRM, Inventory, Sales, Purchase, Accounting, HR, Projects, Assets, and AI Forecasting — into a single web application.
+**SynergyBeam ERP** is an original, fully custom-built business management system that unifies 13 modules — CRM, Inventory, Sales, Purchase, Accounting, HRMS, Projects, Assets, AI Forecasting, RFQ Management, Quotation Comparison, GST Invoices, and Activity Audit — into one web platform.
 
-The system implements a **3-tier role hierarchy** (Admin → Manager → Employee). Each role sees a different sidebar, hits different API permissions, and communicates with other roles through a real approval and notification workflow — the same pattern used in SAP and ERPNext.
+Built with a **3-tier role hierarchy** (Admin → Manager → Employee). Every role sees different pages, hits different API endpoints, and communicates through real approval workflows and a live notification system.
 
-The **Executive Dashboard** shows live KPIs pulled directly from the database — real customer counts, product counts, employee totals, and revenue sums updated on every page load.
+The **AI Forecasting module** uses Facebook Prophet trained on real `stock_movements` transaction data per SKU — not random numbers. Products with insufficient history get an honest "Insufficient data" message.
 
-The **AI Forecasting module** uses Facebook Prophet and Scikit-Learn trained on actual `stock_movements` transaction history. Products with fewer than 14 days of history receive a clear "Insufficient data" message rather than a fabricated forecast.
+The **Procurement module** supports the full procurement lifecycle: create RFQ → invite vendors → collect quotations → compare side-by-side → select winner → auto-generate PO → issue GST invoice with CGST/SGST/IGST breakdown.
 
-> Built as a college capstone demonstrating full-stack engineering: REST API design, relational DB modelling, JWT + RBAC security, paginated APIs, Docker deployment, CI/CD, and applied ML.
+> ⚠️ **All code is original.** No code is copied from any other project.
+> This project is proprietary — all rights reserved by Meet Adraja.
 
 <br/>
 
 ---
-
-<br/>
 
 ## ✨ Modules
 
-| Module | What it does | Access |
+| Module | What it does | Roles |
 | :--- | :--- | :--- |
-| 🏠 **Dashboard** | Live KPI cards + revenue & inventory charts from DB | All |
+| 🏠 **Dashboard** | Live KPIs, revenue charts, procurement metrics | All |
 | 🤝 **CRM** | Customers and leads pipeline | Admin, Manager |
-| 📦 **Inventory** | Products, stock levels, warehouse movements | All |
-| 🛍️ **Sales** | Sales orders and invoices | Admin, Manager |
-| 🛒 **Purchase** | Suppliers + purchase orders with Admin approval | Admin, Manager |
-| 💼 **Accounting** | Accounts, transactions, expenses | Admin only |
-| 👥 **HRMS** | Employees, attendance, leave + Manager approval | Admin, Manager |
-| 🏗️ **Projects** | Projects and tasks | All |
+| 📦 **Inventory** | Products, stock, warehouses, movements | All |
+| 🛍️ **Sales** | Orders and invoices | Admin, Manager |
+| 🛒 **Purchase** | Suppliers and purchase orders | Admin, Manager |
+| 💼 **Accounting** | Accounts, transactions, expenses | Admin |
+| 👥 **HRMS** | Employees, attendance, leave approval | Admin, Manager |
+| 🏗️ **Projects** | Projects and task management | All |
 | 🖥️ **Assets** | Company asset registry | Admin, Manager |
-| 🤖 **AI Forecast** | Prophet + Scikit-Learn on real stock history | Admin, Manager |
+| 📋 **RFQ Management** | Create RFQs, invite vendors, track responses | Admin, Manager |
+| ⚖️ **Quotation Compare** | Side-by-side vendor price comparison | Admin, Manager |
+| 🧾 **GST Invoices** | CGST/SGST/IGST invoices, auto tax calculation | Admin, Manager |
+| 📜 **Activity Log** | Full audit trail of all system actions | Admin, Manager |
+| 🤖 **AI Forecast** | Prophet + SKLearn on real stock history | Admin, Manager |
 | 📊 **Reports** | Live charts + Excel / PDF export | Admin, Manager |
-| 🔔 **Notifications** | Cross-role alerts for approvals and AI alerts | All |
-| 🔐 **Users & Roles** | User management and role assignment | Admin only |
+| 🔔 **Notifications** | Cross-role alerts and approvals | All |
+| 🔐 **Users & Roles** | User management | Admin |
 
 <br/>
 
 ---
 
-<br/>
-
-## 👥 Role-Based Access Control
-
-### Permission Matrix
+## 👥 Roles & Permissions
 
 | Feature | 👑 Admin | 🧑‍💼 Manager | 👤 Employee |
 | :--- | :---: | :---: | :---: |
@@ -123,42 +112,18 @@ The **AI Forecasting module** uses Facebook Prophet and Scikit-Learn trained on 
 | HR — all staff | ✅ | ✅ | ❌ |
 | HR — own leave | ✅ | ✅ | ✅ |
 | Projects | ✅ | ✅ | ✅ |
-| Assets | ✅ | ✅ | ❌ |
+| RFQ / Procurement | ✅ | ✅ | ❌ |
+| GST Invoices | ✅ | ✅ | ❌ |
 | AI Forecast | ✅ | ✅ | ❌ |
-| Reports & Export | ✅ | ✅ | ❌ |
-| Notifications | ✅ | ✅ | ✅ |
+| Reports / Export | ✅ | ✅ | ❌ |
 | Users & Roles | ✅ | ❌ | ❌ |
 | Approve leave | ✅ | ✅ | ❌ |
 | Approve PO | ✅ | ❌ | ❌ |
-
-> Restricted URLs accessed directly in the browser show an **Access Denied** page — roles aren't just hidden from the menu.
-
-### Cross-Role Workflows
-
-```
-LEAVE REQUEST
-  Employee submits leave ──► Manager sees it in HR module
-                         ──► Manager clicks Approve / Reject
-                         ──► Employee receives notification
-
-PURCHASE ORDER
-  Manager creates PO ──► Admin sees pending PO
-                     ──► Admin clicks Approve
-                     ──► Manager receives notification
-
-AI STOCK ALERT
-  Forecast detects critical low stock ──► Notification sent to Admin + Manager
-                                       ──► Manager creates PO ──► Admin approves
-```
-
-Role badges in the top bar are colour-coded:
-🔴 **Admin** · 🔵 **Manager** · 🟢 **Employee**
+| Mark Invoice Paid | ✅ | ❌ | ❌ |
 
 <br/>
 
 ---
-
-<br/>
 
 ## 🏗️ Architecture
 
@@ -173,298 +138,185 @@ graph TD
     Browser["🌐 React 18 + Vite + TypeScript"]:::client
     Flask["⚡ Flask 3.0 REST API"]:::api
 
-    Auth["🔐 JWT Auth + RBAC"]:::svc
-    CRUD["🏢 9 ERP Blueprints + CRUD Factory"]:::svc
-    Dash["📊 Live Dashboard Aggregations"]:::svc
-    Flow["🔄 Approval Workflows + Notifications"]:::svc
-    Exp["📄 PDF + Excel Export"]:::svc
-    AI["🧠 Prophet + Scikit-Learn"]:::ai
+    Auth["🔐 JWT + RBAC"]:::svc
+    CRUD["🏢 13 Module Blueprints"]:::svc
+    Procure["📋 Procurement Workflow"]:::svc
+    Dash["📊 Live Dashboard"]:::svc
+    Export["📄 PDF + Excel"]:::svc
+    AI["🧠 Prophet + SKLearn"]:::ai
 
-    PG[("🐘 PostgreSQL — Production")]:::db
-    SQ[("📁 SQLite — Development")]:::db
+    PG[("🐘 PostgreSQL")]:::db
+    SQ[("📁 SQLite (dev)")]:::db
 
     Browser -->|"REST + Bearer JWT"| Flask
     Flask --> Auth
     Auth --> CRUD
+    Auth --> Procure
     Auth --> Dash
-    Auth --> Flow
-    Flask --> Exp
+    Flask --> Export
     Flask --> AI
     CRUD --> PG
     CRUD --> SQ
-    Dash -->|"COUNT / SUM queries"| PG
+    Procure -->|"RFQ → Quote → PO → Invoice"| PG
+    Dash -->|"COUNT/SUM aggregations"| PG
     AI -->|"stock_movements history"| PG
-    Flow -->|"notifications table"| PG
 ```
 
-**Key patterns:**
-- **CRUD Factory** — `crud.py` generates paginated GET / POST / PUT / DELETE for every module in one function
-- **Real Dashboard** — 4 dedicated endpoints run live COUNT/SUM aggregations on every request
-- **Real AI** — Prophet trains on actual outbound `stock_movements` per SKU, not random data
-- **Shared ResourceTable** — one React component renders all 9 module tables with search + pagination
-
 <br/>
 
 ---
-
-<br/>
-
-## 🛠️ Tech Stack
-
-<details open>
-<summary><b>🎨 Frontend</b></summary>
-<br/>
-
-| Tool | Purpose |
-| :--- | :--- |
-| React 18 + Vite | UI + fast HMR dev server |
-| TypeScript | Type safety across all components |
-| Tailwind CSS v4 | Utility-first styling |
-| ShadCN UI + Radix UI | Accessible component primitives |
-| TanStack React Query v5 | Server state, caching, background refetch |
-| React Router v6 | Client-side routing with protected routes |
-| Recharts | Interactive charts on dashboard and reports |
-| Axios | HTTP client with automatic JWT injection |
-| Lucide React | Icons |
-
-</details>
-
-<details open>
-<summary><b>⚙️ Backend</b></summary>
-<br/>
-
-| Tool | Purpose |
-| :--- | :--- |
-| Python 3.10+ + Flask 3.0 | REST API |
-| SQLAlchemy | ORM — no raw SQL |
-| PostgreSQL 15 | Production database |
-| SQLite | Zero-config local dev |
-| PyJWT | JWT generation + validation |
-| Werkzeug.security | Scrypt password hashing |
-| Flask-Limiter | Rate limiting (5 req/min on login) |
-| Flask-CORS | Cross-origin handling |
-| ReportLab | PDF generation |
-| OpenPyXL + Pandas | Excel export |
-
-</details>
-
-<details open>
-<summary><b>🧠 AI / Data Science</b></summary>
-<br/>
-
-| Tool | Purpose |
-| :--- | :--- |
-| Facebook Prophet | Time-series demand forecasting per SKU |
-| Scikit-Learn | Anomaly detection + overstock/understock classification |
-| Pandas | Data aggregation and manipulation |
-| NumPy | Numerical operations |
-
-</details>
-
-<details open>
-<summary><b>🧪 Testing + DevOps</b></summary>
-<br/>
-
-| Tool | Purpose |
-| :--- | :--- |
-| pytest + pytest-flask | Backend unit + integration tests |
-| Vitest + RTL | Frontend component tests |
-| Docker + Docker Compose | Containerised deployment |
-| GitHub Actions | CI — test + build on every push |
-
-</details>
-
-<br/>
-
----
-
-<br/>
 
 ## 📂 Project Structure
 
 ```
-AI-Powered-ERP-System/
+SynergyBeam-ERP/
 │
-├── .github/workflows/ci.yml       # GitHub Actions CI pipeline
-│
-├── backend/
-│   ├── app.py                     # App factory — registers all blueprints
-│   ├── config.py                  # DB URI, JWT, environment config
-│   ├── extensions.py              # Flask-Limiter setup
+├── backend/                        ← Python Flask REST API
+│   ├── app.py                      App factory + blueprint registration
+│   ├── config.py                   DB URI, JWT, env config
+│   ├── extensions.py               Flask-Limiter setup
 │   ├── requirements.txt
+│   ├── Dockerfile
 │   │
 │   ├── ai_service/
-│   │   └── forecaster.py          # Prophet + Scikit-Learn on real stock history
+│   │   └── forecaster.py           Prophet + SKLearn on real stock data
 │   │
-│   ├── models/                    # SQLAlchemy ORM (one file per domain)
-│   │   ├── user.py                # User + roles
-│   │   ├── notification.py        # Cross-role notifications
-│   │   ├── crm.py                 # Customer, Lead
-│   │   ├── product.py             # Product catalog
-│   │   ├── inventory_models.py    # Warehouse, StockMovement, ForecastLog
-│   │   ├── sales.py               # SalesOrder, Invoice
-│   │   ├── purchase.py            # Supplier, PurchaseOrder
-│   │   ├── hr.py                  # Employee, Attendance, LeaveRequest
-│   │   ├── accounting.py          # Account, Transaction, Expense
-│   │   ├── projects.py            # Project, Task
-│   │   └── assets.py              # Asset
+│   ├── models/                     SQLAlchemy ORM (one file per domain)
+│   │   ├── user.py                 User + roles
+│   │   ├── notification.py         Cross-role notifications
+│   │   ├── crm.py                  Customer, Lead
+│   │   ├── product.py              Product catalog
+│   │   ├── inventory_models.py     Warehouse, StockMovement
+│   │   ├── sales.py                SalesOrder, Invoice
+│   │   ├── purchase.py             Supplier, PurchaseOrder
+│   │   ├── hr.py                   Employee, Attendance, LeaveRequest
+│   │   ├── accounting.py           Account, Transaction, Expense
+│   │   ├── projects.py             Project, Task
+│   │   ├── assets.py               Asset
+│   │   └── rfq.py                  RFQ, Quotation, GSTInvoice, ActivityLog
 │   │
-│   ├── routes/                    # Flask blueprints
-│   │   ├── auth.py                # Login, JWT, @token_required decorator
-│   │   ├── crud.py                # CRUD factory: paginated GET/POST/PUT/DELETE
-│   │   ├── dashboard.py           # Live KPI aggregations
-│   │   ├── hr.py                  # HR + leave approval endpoint
-│   │   ├── purchase.py            # Purchase + PO approval endpoint
-│   │   ├── notifications.py       # Notification REST endpoints
-│   │   ├── inventory.py           # Product + stock endpoints
-│   │   ├── forecast.py            # AI forecast endpoint
-│   │   └── export.py              # PDF + Excel export
+│   ├── routes/                     Flask blueprints (one per module)
+│   │   ├── auth.py                 Login, JWT, @token_required
+│   │   ├── crud.py                 CRUD factory: paginated GET/POST/PUT/DELETE
+│   │   ├── dashboard.py            Live KPI aggregations
+│   │   ├── inventory.py            Products + stock endpoints
+│   │   ├── hr.py                   HR + leave approval
+│   │   ├── purchase.py             Purchase + PO approval
+│   │   ├── rfq.py                  RFQ, quotations, GST invoices, activity log
+│   │   ├── notifications.py        Notification endpoints
+│   │   ├── forecast.py             AI forecast
+│   │   └── export.py               PDF + Excel export
 │   │
-│   └── tests/                     # pytest suite
-│       ├── conftest.py            # Fixtures (in-memory SQLite, auth headers)
+│   └── tests/                      pytest test suite
+│       ├── conftest.py             Fixtures + in-memory SQLite
 │       ├── test_auth.py
 │       ├── test_crud.py
 │       ├── test_dashboard.py
 │       ├── test_forecast.py
 │       └── test_validation.py
 │
-├── frontend/src/
-│   ├── components/
-│   │   ├── resource-table.tsx     # Shared table — all modules use this
-│   │   ├── error-boundary.tsx     # Global error boundary (no black screens)
-│   │   ├── module-shell.tsx       # PageHeader, StatPill, StatusBadge
-│   │   └── app-sidebar.tsx        # Role-filtered sidebar
-│   ├── hooks/use-auth.tsx         # JWT context + role helpers
-│   ├── pages/                     # dashboard, crm, inventory, sales,
-│   │                              # purchase, accounting, hr, projects,
-│   │                              # assets, ai-forecast, reports,
-│   │                              # notifications, users
-│   ├── types/index.ts             # Shared TypeScript interfaces
-│   └── services/api.ts            # Axios + JWT interceptor
+├── frontend/                       ← React SPA
+│   └── src/
+│       ├── components/
+│       │   ├── resource-table.tsx  Shared table for all modules
+│       │   ├── error-boundary.tsx  Global error boundary
+│       │   ├── module-shell.tsx    Page headers, stat pills
+│       │   └── app-sidebar.tsx     Role-filtered sidebar
+│       ├── hooks/use-auth.tsx      JWT context + role helpers
+│       ├── pages/                  One file per module
+│       ├── types/index.ts          Shared TypeScript interfaces
+│       └── services/api.ts         Axios + JWT interceptor
 │
-├── database/
-│   ├── schema.sql                 # PostgreSQL schema
-│   └── seed.sql                   # Demo data + default user accounts
-│
-└── docker-compose.yml
+└── database/                       ← Schema + seed data
+    ├── schema.sql                  PostgreSQL schema
+    └── seed.sql                    Demo data + user accounts
 ```
+
+> **3 folders, clean root.** `backend/` · `frontend/` · `database/`
+> All config files, CI, Docker, and docs live at root level.
 
 <br/>
 
 ---
-
-<br/>
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-**Node.js 18+** · **Python 3.10+** · **Git**
+**Python 3.10+** · **Node.js 18+** · **Git**
 
----
+### Option A — Local (Windows)
 
-### Option A — Local Development (Recommended)
-
-```bash
-# 1. Clone
+```powershell
+# Clone
 git clone https://github.com/adrajameet7805/AI-Powered-ERP-System.git
 cd AI-Powered-ERP-System
 
-# 2. Backend
-cd backend
-python -m venv venv
-venv\Scripts\activate      # Windows
-source venv/bin/activate   # Mac / Linux
-pip install -r requirements.txt
-python app.py
-# ✅ API at http://localhost:5000
-
-# 3. Frontend  (new terminal)
-cd frontend
-npm install
-npm run dev
-# ✅ UI at http://localhost:5173
-```
-
-> **Important:** Start the backend first. The frontend calls `localhost:5000` on every page load.
-
----
-
-### Option B — Docker (Full stack with PostgreSQL)
-
-```bash
-docker-compose up --build
-# ✅ UI at http://localhost:8080  |  API at http://localhost:5000
-# PostgreSQL seeded automatically from database/seed.sql
-```
-
----
-
-### 🪟 Windows Quick Start (PowerShell)
-
-> **On Windows, use `venv\Scripts\activate` — NOT `source venv/bin/activate`.** The `source` command is for Mac/Linux only.
-
-```powershell
 # Terminal 1 — Backend
 cd backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 python app.py
-# ✅ API at http://localhost:5000
+# ✅ http://localhost:5000
 
-# Terminal 2 — Frontend (open new terminal)
+# Terminal 2 — Frontend
 cd frontend
 npm install
 npm run dev
-# ✅ UI at http://localhost:5173
-# (or http://localhost:5174 if 5173 is already in use)
-
-# Open browser
-# http://localhost:5173
-# Login: admin@synergybeam.com / Admin@123
+# ✅ http://localhost:5173
 ```
+
+### Option A — Local (Mac / Linux)
+
+```bash
+# Terminal 1 — Backend
+cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py
+
+# Terminal 2 — Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+### Option B — Docker
+
+```bash
+docker-compose up --build
+# ✅ UI at http://localhost:8080  |  API at http://localhost:5000
+```
+
+> **Important:** Always start the backend first. The frontend calls `localhost:5000` on every request.
 
 <br/>
 
 ---
-
-<br/>
 
 ## 🔑 Default Credentials
 
 > [!CAUTION]
-> Change all passwords immediately before any public or production deployment.
+> Change all passwords before any public deployment.
 
-| Role | Email | Password | Access |
-| :--- | :--- | :--- | :--- |
-| 👑 **Admin** | `admin@synergybeam.com` | `Admin@123` | Full system access |
-| 🧑‍💼 **Manager** | `manager@synergybeam.com` | `Admin@123` | Operations + approvals |
-| 👤 **Employee** | `employee@synergybeam.com` | `Admin@123` | Dashboard, Inventory, Projects, own HR |
-
-**Test the role system:**
-1. Log in as **Employee** → see only Dashboard, Inventory, Projects, Notifications
-2. Type `/accounting` in the URL → Access Denied page
-3. Submit a leave request as Employee
-4. Log out, log in as **Manager** → see pending leave in HR, click Approve
-5. Log in as **Admin** → see everything including Accounting and Users & Roles
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| 👑 Admin | `admin@synergybeam.com` | `Admin@123` |
+| 🧑‍💼 Manager | `manager@synergybeam.com` | `Admin@123` |
+| 👤 Employee | `employee@synergybeam.com` | `Admin@123` |
 
 <br/>
 
 ---
-
-<br/>
 
 ## ⚙️ Environment Variables
 
 **`backend/.env`**
 ```env
-# Leave blank to use SQLite locally
 DATABASE_URL=postgresql://user:password@localhost:5432/synergybeam
-
-# Generate random 32-char strings for production
-SECRET_KEY=your-secret-key-here
-JWT_SECRET_KEY=your-jwt-secret-here
-
+SECRET_KEY=your-32-char-secret-key
+JWT_SECRET_KEY=your-32-char-jwt-secret
 FLASK_ENV=development
 ```
 
@@ -473,13 +325,9 @@ FLASK_ENV=development
 VITE_API_URL=http://localhost:5000/api
 ```
 
-> Never commit `.env` files — both are in `.gitignore`.
-
 <br/>
 
 ---
-
-<br/>
 
 ## 🌐 API Reference
 
@@ -488,272 +336,148 @@ All endpoints except `/api/auth/login` and `/api/health` require:
 Authorization: Bearer YOUR_JWT_TOKEN
 ```
 
-**Paginated list response format** (all GET list endpoints):
+**Paginated response format:**
 ```json
-{
-  "data":     [ ...records ],
-  "total":    50,
-  "page":     1,
-  "pages":    2,
-  "per_page": 50
-}
+{ "data": [...], "total": 50, "page": 1, "pages": 2, "per_page": 50 }
 ```
-Query params: `?page=2&per_page=25&search=keyword`
+Query params: `?page=1&per_page=25&search=keyword`
 
----
-
-**Auth**
-
-| Method | Endpoint | Roles | Description |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/auth/login` | Public | Returns `access_token` + `refresh_token` |
-| `GET` | `/api/auth/users` | Admin | List all users |
-| `GET` | `/api/health` | Public | Health check |
-
-**Dashboard (live DB aggregations)**
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/dashboard/kpis` | Real customer/product/employee counts + revenue |
-| `GET` | `/api/dashboard/revenue-chart` | 6-month revenue vs profit |
-| `GET` | `/api/dashboard/inventory-chart` | 6-week stock in/out |
-| `GET` | `/api/dashboard/activity-feed` | Recent activity across all modules |
-
-**ERP Modules** — all support `GET / POST / PUT / DELETE` + `?search=&page=`
-
-| Endpoint | Roles |
+| Category | Endpoints |
 | :--- | :--- |
-| `/api/customers`, `/api/leads` | Admin, Manager |
-| `/api/inventory/products` | All |
-| `/api/sales_orders`, `/api/invoices` | Admin, Manager |
-| `/api/suppliers`, `/api/purchase_orders` | Admin, Manager |
-| `/api/employees`, `/api/leave_requests` | Admin, Manager (Employee: own leave only) |
-| `/api/accounts`, `/api/transactions`, `/api/expenses` | Admin |
-| `/api/projects`, `/api/tasks` | All |
-| `/api/assets` | Admin, Manager |
-| `/api/notifications` | All |
+| **Auth** | `POST /api/auth/login` · `GET /api/auth/users` |
+| **Dashboard** | `GET /api/dashboard/kpis` · `revenue-chart` · `inventory-chart` · `activity-feed` |
+| **CRM** | `/api/customers` · `/api/leads` |
+| **Inventory** | `/api/inventory/products` |
+| **Sales** | `/api/sales_orders` · `/api/invoices` |
+| **Purchase** | `/api/suppliers` · `/api/purchase_orders` |
+| **Accounting** | `/api/accounts` · `/api/transactions` · `/api/expenses` |
+| **HR** | `/api/employees` · `/api/leave_requests` |
+| **Projects** | `/api/projects` · `/api/tasks` |
+| **Assets** | `/api/assets` |
+| **Procurement** | `/api/rfqs` · `/api/vendor-quotations` · `/api/gst-invoices` · `/api/activity-logs` |
+| **AI** | `GET /api/forecast/` |
+| **Export** | `/api/export/excel/{crm\|inventory\|hrms\|accounting}` · `/api/export/pdf/{sales\|inventory\|financials}` |
+| **System** | `GET /api/health` · `GET /api/notifications` |
 
-**Approval Workflows**
-
-| Method | Endpoint | Roles | Description |
-| :--- | :--- | :--- | :--- |
-| `PATCH` | `/api/leave_requests/<id>/status` | Admin, Manager | Approve / reject leave |
-| `PATCH` | `/api/purchase_orders/<id>/approve` | Admin | Approve purchase order |
-
-**AI + Export**
-
-| Method | Endpoint | Valid module names |
-| :--- | :--- | :--- |
-| `GET` | `/api/forecast/` | — |
-| `GET` | `/api/export/excel/<module>` | `crm`, `customers`, `inventory`, `products`, `hrms`, `employees`, `accounting` |
-| `GET` | `/api/export/pdf/<module>` | `sales`, `inventory`, `financials`, `customers`, `employees` |
-
-**Quick test:**
-```bash
-# Login
-curl -X POST http://localhost:5000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email":"admin@synergybeam.com","password":"Admin@123"}'
-
-# Use the token
-curl http://localhost:5000/api/dashboard/kpis \
-  -H "Authorization: Bearer YOUR_TOKEN"
-```
+All module endpoints support `GET / POST / PUT / DELETE`.
 
 <br/>
 
 ---
 
-<br/>
-
-## 🤖 How AI Forecasting Works
+## 🤖 AI Forecasting
 
 ```
-1. Query real outbound stock_movements per SKU from DB
-         ↓
-2. Products with < 14 days history → "Insufficient data" message
-         ↓
-3. Products with ≥ 14 days → Facebook Prophet fits time-series
-         ↓
-4. Prophet predicts demand for next 30 days
-         ↓
+1. Query real outbound stock_movements per SKU
+2. < 14 days history → "Insufficient data" message
+3. ≥ 14 days → Facebook Prophet fits time-series model
+4. Predicts 30-day demand per SKU
 5. Scikit-Learn classifies: OVERSTOCK / UNDERSTOCK / HEALTHY
-         ↓
-6. Plain-English recommendation generated per product
-7. ForecastLog row saved to DB (powers activity feed)
-8. Critical SKUs auto-create Notifications for Admin + Manager
+6. Auto-creates notifications for Admin + Manager on critical SKUs
 ```
-
-> Typical response time: **1–3 seconds** for 15 SKUs (Prophet model fitting overhead)
 
 <br/>
 
 ---
 
+## 📋 Procurement Workflow
+
+```
+Procurement Officer creates RFQ
+        ↓  Vendors invited (from Suppliers list)
+        ↓  Vendors submit quotations via Vendor Portal
+        ↓  Manager compares quotations side-by-side
+        ↓  Manager selects winning quotation
+        ↓  System auto-generates Purchase Order
+        ↓  Admin creates GST Invoice (CGST+SGST or IGST)
+        ↓  Admin marks invoice as Paid
+        ↓  ActivityLog records every step
+```
+
 <br/>
 
-## 🧪 Running Tests
+---
+
+## 🧪 Tests
 
 ```bash
-# Backend
 cd backend
 pip install pytest pytest-flask pytest-cov
 pytest tests/ -v
 pytest tests/ --cov=. --cov-report=term-missing
-
-# Frontend (after npm install)
-cd frontend
-npm install
-npm run test
-npm run test -- --coverage
 ```
 
 <br/>
 
 ---
-
-<br/>
 
 ## 🔐 Security
 
-- **Password hashing** — Werkzeug scrypt. Never stored as plaintext.
-- **JWT** — 1-hour access tokens + 30-day refresh tokens.
-- **RBAC** — Every endpoint declares allowed roles via `@token_required(roles=[...])`. Unauthorized → HTTP 403.
-- **Frontend route guard** — Restricted URLs show an Access Denied screen.
-- **SQL injection prevention** — All queries go through SQLAlchemy ORM.
-- **Rate limiting** — Login endpoint limited to 5 requests/minute per IP → HTTP 429.
+- Scrypt password hashing (Werkzeug)
+- JWT access tokens (1h) + refresh tokens (30d)
+- RBAC via `@token_required(roles=[...])` — unauthorized → HTTP 403
+- Frontend protected routes — restricted URLs show Access Denied
+- SQLAlchemy ORM — no raw SQL, no injection risk
+- Rate limiting — 5 req/min on login → HTTP 429
+- CORS locked to `localhost:5173` and production domains
 
 <br/>
 
 ---
-
-<br/>
 
 ## 🗺️ Roadmap
 
-**Completed ✅**
-- [x] 27 API endpoints — all passing
-- [x] 10/10 RBAC security checks passing
-- [x] JWT auth with access + refresh tokens
-- [x] 3-tier role system — Admin / Manager / Employee
-- [x] Role-filtered sidebar + protected URL routes
-- [x] Live dashboard KPIs from real DB aggregations
-- [x] Full CRUD (GET / POST / PUT / DELETE) on all modules
-- [x] Paginated + searchable list endpoints
-- [x] Input validation on all create/update endpoints
-- [x] Leave request approval workflow + notifications
-- [x] Purchase order approval workflow + notifications
-- [x] AI forecasting on real stock movement history
-- [x] Rate limiting on login — HTTP 429 on abuse
-- [x] PDF and Excel export for all modules
-- [x] Error boundary — no more black screens
-- [x] Docker Compose deployment
-- [x] GitHub Actions CI pipeline
+**Done ✅**
+- [x] 24 API endpoints all passing
+- [x] 3-tier RBAC enforced frontend + backend
+- [x] Live dashboard from real DB
+- [x] Full CRUD on all 13 modules
+- [x] Paginated + searchable APIs
+- [x] AI forecasting on real stock history
+- [x] Full procurement workflow (RFQ → GST Invoice)
+- [x] GST invoice with CGST/SGST/IGST auto-calculation
+- [x] Activity audit log
+- [x] PDF + Excel export
+- [x] Rate limiting (HTTP 429)
+- [x] Error boundary (no black screens)
+- [x] Docker Compose
+- [x] GitHub Actions CI
 - [x] Dark / Light theme
 
-**In Progress 🔧**
-- [ ] Install frontend test packages (`npm install` needed for vitest + RTL)
-- [ ] Suppress Prophet/plotly console warnings
-- [ ] CORS locked to frontend URL in production
+**Planned 🔧**
+- [ ] Frontend test packages install (vitest + RTL)
+- [ ] Suppress Prophet/plotly warning
+- [ ] HTTPS + production CORS
 
 <br/>
 
 ---
-
-<br/>
 
 ## ❓ Troubleshooting
 
-<details>
-<summary><b>Black screen or "Something went wrong" on any page</b></summary>
-
-The backend must be running before the frontend. Start backend first:
-
-```bash
-cd backend && python app.py      # Terminal 1
-cd frontend && npm run dev       # Terminal 2
-```
-
-If you see `.map is not a function` or `.filter is not a function` in the console — the response is not being unwrapped correctly. All list endpoints return `{ data: [...], total, page }`. Access the array via `response.data?.data`.
-</details>
-
-<details>
-<summary><b>401 Unauthorized</b></summary>
-
-JWT expired (1 hour default). Log out and log back in.
-</details>
-
-<details>
-<summary><b>403 Forbidden</b></summary>
-
-Your role does not have access to that endpoint. Example: Employee cannot call `/api/accounting`. Log in with the correct role.
-</details>
-
-<details>
-<summary><b>AI Forecast is slow (3–5 seconds)</b></summary>
-
-Normal. Facebook Prophet must fit a time-series model for each product SKU. With 15 products this takes 1–3 seconds. It will be slower on the first call after the server starts (cold start).
-</details>
-
-<details>
-<summary><b>Export returns "Invalid module" error</b></summary>
-
-Use these exact module name strings in the URL:
-- Excel: `crm`, `inventory`, `hrms`, `accounting`
-- PDF: `sales`, `inventory`, `financials`
-</details>
-
-<details>
-<summary><b>Docker build is slow or fails</b></summary>
-
-Ensure `backend/.dockerignore` contains:
-```
-venv/
-__pycache__/
-*.pyc
-*.db
-```
-Without this, Docker copies the entire `venv/` folder (400MB+) into the container.
-</details>
+| Problem | Fix |
+| :--- | :--- |
+| Black screen | Start backend first, then frontend |
+| `.map is not a function` | API returns `{ data: [] }` — use `res.data?.data` not `res.data` |
+| `401 Unauthorized` | JWT expired — log out and log in again |
+| `403 Forbidden` | Wrong role for that endpoint |
+| AI forecast slow first call | Normal — Prophet cold start ~3s, cached after |
+| `source` not recognized (Windows) | Use `venv\Scripts\activate` not `source venv/bin/activate` |
+| Port 5173 in use | Frontend will auto-use 5174 — this is fine |
 
 <br/>
 
 ---
-
-<br/>
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a branch: `git checkout -b feature/your-feature`
-3. Follow PEP 8 (Python) and ESLint / Prettier (TypeScript)
-4. Write tests for any new endpoint
-5. Open a PR with a clear description
-
-<br/>
-
----
-
-<br/>
-
-## 📜 License
-
-MIT License — free to use, modify, and distribute with attribution.
-
-<br/>
-
----
-
-<br/>
 
 <div align="center">
 
-### 👨‍💻 Built by
+## 👨‍💻 Author
 
 **Meet Adraja** — Full-Stack Developer
 
 [![GitHub](https://img.shields.io/badge/GitHub-%40adrajameet7805-181717?style=flat-square&logo=github)](https://github.com/adrajameet7805)
 
-*If this project helped you, please give it a ⭐*
+*© 2026 Meet Adraja. All rights reserved.*
+*If this helped you, please give it a ⭐*
 
 </div>
