@@ -81,8 +81,11 @@ CREATE TABLE suppliers (
     email VARCHAR(120),
     phone VARCHAR(50),
     address TEXT,
-    rating DECIMAL(3, 1) DEFAULT 4.0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    rating DECIMAL(3, 2) DEFAULT 4.00,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    gst_number VARCHAR(20) UNIQUE,
+    vendor_status VARCHAR(50) DEFAULT 'active',
+    location VARCHAR(100) DEFAULT 'India'
 );
 
 CREATE TABLE purchase_orders (
@@ -224,5 +227,81 @@ CREATE TABLE notifications (
     read BOOLEAN DEFAULT FALSE,
     related_id INTEGER,
     related_type VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE rfqs (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(500) NOT NULL,
+    description TEXT,
+    deadline DATE NOT NULL,
+    status VARCHAR(50) DEFAULT 'draft',
+    created_by INTEGER REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE rfq_items (
+    id SERIAL PRIMARY KEY,
+    rfq_id INTEGER REFERENCES rfqs(id) ON DELETE CASCADE,
+    description VARCHAR(500) NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL,
+    unit VARCHAR(50) DEFAULT 'units',
+    estimated_price DECIMAL(15, 2)
+);
+
+CREATE TABLE rfq_vendors (
+    id SERIAL PRIMARY KEY,
+    rfq_id INTEGER REFERENCES rfqs(id) ON DELETE CASCADE,
+    vendor_id INTEGER REFERENCES suppliers(id) ON DELETE CASCADE,
+    invited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    responded_at TIMESTAMP
+);
+
+CREATE TABLE vendor_quotations (
+    id SERIAL PRIMARY KEY,
+    rfq_id INTEGER REFERENCES rfqs(id) ON DELETE CASCADE,
+    vendor_id INTEGER REFERENCES suppliers(id) ON DELETE CASCADE,
+    total_price DECIMAL(15, 2) NOT NULL,
+    delivery_days INTEGER NOT NULL,
+    valid_until DATE,
+    notes TEXT,
+    status VARCHAR(50) DEFAULT 'draft',
+    submitted_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE vendor_quotation_items (
+    id SERIAL PRIMARY KEY,
+    quotation_id INTEGER REFERENCES vendor_quotations(id) ON DELETE CASCADE,
+    rfq_item_id INTEGER REFERENCES rfq_items(id) ON DELETE CASCADE,
+    unit_price DECIMAL(15, 2) NOT NULL,
+    total_price DECIMAL(15, 2) NOT NULL,
+    notes VARCHAR(500)
+);
+
+CREATE TABLE gst_invoices (
+    id SERIAL PRIMARY KEY,
+    po_id INTEGER REFERENCES purchase_orders(id),
+    invoice_number VARCHAR(50) UNIQUE NOT NULL,
+    subtotal DECIMAL(15, 2) NOT NULL,
+    cgst DECIMAL(15, 2) DEFAULT 0.00,
+    sgst DECIMAL(15, 2) DEFAULT 0.00,
+    igst DECIMAL(15, 2) DEFAULT 0.00,
+    total_amount DECIMAL(15, 2) NOT NULL,
+    status VARCHAR(50) DEFAULT 'draft',
+    due_date DATE,
+    paid_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE activity_logs (
+    id SERIAL PRIMARY KEY,
+    actor_id INTEGER REFERENCES users(id),
+    actor_email VARCHAR(120),
+    entity_type VARCHAR(50),
+    entity_id INTEGER,
+    action VARCHAR(100),
+    metadata TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

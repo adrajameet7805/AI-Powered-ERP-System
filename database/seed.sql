@@ -172,3 +172,57 @@ INSERT INTO expenses (category, amount, description, expense_date, status) VALUE
 ('Travel', 450.00, 'Flight to Mumbai', '2026-06-10', 'pending'),
 ('Office Supplies', 120.00, 'Stationery', '2026-06-15', 'approved'),
 ('Marketing', 2000.00, 'LinkedIn Ads', '2026-06-05', 'approved');
+
+-- Sample RFQs
+INSERT INTO rfqs (title, description, deadline, status, created_by)
+VALUES
+  ('Office Laptop Procurement Q3 2026',
+   'Procurement of 20 laptops for engineering team',
+   '2026-07-30', 'published', 1),
+  ('Annual Stationery Supply',
+   'Annual stationery and office supplies',
+   '2026-08-15', 'draft', 1),
+  ('Server Infrastructure Upgrade',
+   'Purchase of 4 rack servers',
+   '2026-07-10', 'closed', 1);
+
+-- RFQ Items for RFQ 1
+INSERT INTO rfq_items (rfq_id, description, quantity, unit, estimated_price)
+VALUES
+  (1, 'Laptop 16GB RAM 512GB SSD', 20, 'units', 65000.00),
+  (1, 'Laptop Bag', 20, 'units', 1500.00),
+  (1, 'Wireless Mouse', 20, 'units', 800.00);
+
+-- Assign vendors to RFQ 1
+INSERT INTO rfq_vendors (rfq_id, vendor_id)
+VALUES (1, 1), (1, 2), (1, 3);
+
+-- Sample quotations
+INSERT INTO vendor_quotations (rfq_id, vendor_id, total_price,
+  delivery_days, notes, status, submitted_at)
+VALUES
+  (1, 1, 1340000.00, 7, 'Including 1 year warranty', 'submitted',
+   CURRENT_TIMESTAMP),
+  (1, 2, 1380000.00, 5, 'Express delivery available', 'submitted',
+   CURRENT_TIMESTAMP),
+  (1, 3, 1290000.00, 10, 'Bulk discount applied', 'submitted',
+   CURRENT_TIMESTAMP);
+
+-- Sample GST invoices
+INSERT INTO gst_invoices (po_id, invoice_number, subtotal, cgst, sgst,
+  igst, total_amount, status, due_date)
+VALUES
+  (1, 'INV-2026-10001', 1290000.00, 116100.00, 116100.00, 0.00,
+   1522200.00, 'sent', '2026-07-31'),
+  (2, 'INV-2026-10002', 450000.00, 0.00, 0.00, 81000.00,
+   531000.00, 'paid', '2026-07-15');
+
+-- Sample activity logs
+INSERT INTO activity_logs (actor_id, actor_email, entity_type,
+  entity_id, action)
+VALUES
+  (1, 'admin@synergybeam.com', 'RFQ', 1, 'Created RFQ'),
+  (1, 'admin@synergybeam.com', 'RFQ', 1, 'Published RFQ'),
+  (1, 'admin@synergybeam.com', 'VendorQuotation', 3, 'Selected winning quotation'),
+  (1, 'admin@synergybeam.com', 'GSTInvoice', 1, 'Generated GST invoice'),
+  (1, 'admin@synergybeam.com', 'GSTInvoice', 2, 'Marked invoice as paid');

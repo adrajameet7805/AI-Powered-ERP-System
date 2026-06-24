@@ -16,6 +16,10 @@ import PurchasePage from "./pages/purchase";
 import ReportsPage from "./pages/reports";
 import SalesPage from "./pages/sales";
 import UsersPage from "./pages/users";
+import RFQPage from "./pages/rfq";
+import QuotationComparePage from "./pages/quotation-comparison";
+import GSTInvoicesPage from "./pages/gst-invoices";
+import ActivityLogPage from "./pages/activity-log";
 import { ProtectedRoute } from "./components/protected-route";
 
 export default function App() {
@@ -74,6 +78,26 @@ export default function App() {
             <Route path="purchase" element={
               <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
                 <PurchasePage />
+              </ProtectedRoute>
+            } />
+            <Route path="rfq" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <RFQPage />
+              </ProtectedRoute>
+            } />
+            <Route path="compare" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <QuotationComparePage />
+              </ProtectedRoute>
+            } />
+            <Route path="gst-invoices" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <GSTInvoicesPage />
+              </ProtectedRoute>
+            } />
+            <Route path="activity-log" element={
+              <ProtectedRoute allowedRoles={["Admin", "Manager"]}>
+                <ActivityLogPage />
               </ProtectedRoute>
             } />
             <Route path="reports" element={

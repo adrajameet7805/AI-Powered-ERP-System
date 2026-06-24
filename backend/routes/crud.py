@@ -53,6 +53,12 @@ def create_crud_routes(bp, model, route_name, roles=None, skip_get=False):
             error_msg = validate_required(data, required_fields)
             if error_msg:
                 return jsonify({"error": error_msg}), 400
+
+            if route_name == 'suppliers':
+                import re
+                gst = data.get('gst_number', '')
+                if gst and not re.match(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$', gst):
+                    return jsonify({'error': 'Invalid GST number format'}), 400
                 
             # Parse dates for SQLite
             for key, value in list(data.items()):
@@ -102,6 +108,12 @@ def create_crud_routes(bp, model, route_name, roles=None, skip_get=False):
             error_msg = validate_required(data, required_fields)
             if error_msg:
                 return jsonify({"error": error_msg}), 400
+
+            if route_name == 'suppliers':
+                import re
+                gst = data.get('gst_number', '')
+                if gst and not re.match(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$', gst):
+                    return jsonify({'error': 'Invalid GST number format'}), 400
                 
             # Parse date fields same as in create
             for key, value in list(data.items()):

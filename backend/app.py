@@ -16,6 +16,7 @@ from routes.inventory_extended import inventory_ext_bp
 from routes.export import export_bp
 from routes.notifications import notifications_bp
 from routes.dashboard import dashboard_bp
+from routes.rfq import rfq_bp
 
 def create_app():
     app = Flask(__name__)
@@ -59,6 +60,7 @@ def create_app():
     app.register_blueprint(export_bp, url_prefix='/api/export')
     app.register_blueprint(notifications_bp, url_prefix='/api')
     app.register_blueprint(dashboard_bp, url_prefix='/api/dashboard')
+    app.register_blueprint(rfq_bp, url_prefix='/api')
 
     @app.route('/api/health', methods=['GET'])
     def health_check():

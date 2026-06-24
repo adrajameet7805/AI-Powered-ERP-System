@@ -2,7 +2,8 @@ import {
   Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,
 } from "recharts";
 import {
-  ArrowDownRight, ArrowUpRight, Boxes, DollarSign, TrendingUp, Users, Loader2
+  ArrowDownRight, ArrowUpRight, Boxes, DollarSign, TrendingUp, Users, Loader2,
+  FileQuestion, BarChart2, Receipt
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/services/api";
@@ -92,6 +93,25 @@ export default function Dashboard() {
           </>
         )}
       </section>
+
+      {/* Procurement KPI Cards */}
+      <div className="space-y-3">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Procurement Overview</h3>
+        <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {kpiLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+               <Card key={i} className="glass overflow-hidden"><CardContent className="p-5 flex justify-center items-center h-[120px]"><Loader2 className="animate-spin text-muted-foreground" /></CardContent></Card>
+            ))
+          ) : (
+            <>
+              <Kpi icon={FileQuestion} label="Active RFQs" value={`${kpis?.active_rfqs ?? 0}`} delta="Published" up />
+              <Kpi icon={BarChart2} label="Pending Quotations" value={`${kpis?.pending_quotations ?? 0}`} delta="Under Review" up />
+              <Kpi icon={Receipt} label="GST Invoices Pending" value={`${kpis?.gst_invoices_pending ?? 0}`} delta="Sent/Draft" up />
+              <Kpi icon={DollarSign} label="Total PO Value" value={`₹${Number(kpis?.total_po_value ?? 0).toLocaleString("en-IN")}`} delta="Paid Invoices" up />
+            </>
+          )}
+        </section>
+      </div>
 
       {/* Charts */}
       <section className="grid gap-4 lg:grid-cols-3">

@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard, Boxes, Users, ShoppingCart, Truck, Receipt,
   UserCog, FolderKanban, Wrench, Brain, BarChart3, Bell, Settings, Sparkles, ShieldCheck,
+  FileQuestion, BarChart2, Activity,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent,
@@ -26,6 +27,15 @@ const groups = [
       { title: "Inventory", url: "/inventory", icon: Boxes, roles: ["Admin", "Manager", "Employee"] },
       { title: "Sales", url: "/sales", icon: ShoppingCart, roles: ["Admin", "Manager"] },
       { title: "Purchase", url: "/purchase", icon: Truck, roles: ["Admin", "Manager"] },
+    ]
+  },
+  {
+    label: "Procurement",
+    items: [
+      { title: "RFQ Management",    url: "/rfq",        icon: FileQuestion, roles: ["Admin","Manager"] },
+      { title: "Quotation Compare", url: "/compare",    icon: BarChart2,    roles: ["Admin","Manager"] },
+      { title: "GST Invoices",      url: "/gst-invoices", icon: Receipt,      roles: ["Admin","Manager"] },
+      { title: "Activity Log",      url: "/activity-log", icon: Activity,     roles: ["Admin","Manager"] },
     ]
   },
   {

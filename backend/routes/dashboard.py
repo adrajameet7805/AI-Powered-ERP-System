@@ -12,11 +12,17 @@ def get_kpis():
         from models.product import Product
         from models.hr import Employee
         from models.sales import Invoice
+        from models.rfq import RFQ, VendorQuotation, GSTInvoice
 
         total_customers = db.session.query(func.count(Customer.id)).scalar() or 0
         total_products = db.session.query(func.count(Product.id)).scalar() or 0
         total_employees = db.session.query(func.count(Employee.id)).scalar() or 0
         total_revenue = db.session.query(func.sum(Invoice.amount)).scalar() or 0
+
+        active_rfqs = db.session.query(func.count(RFQ.id)).filter(RFQ.status == 'published').scalar() or 0
+        pending_quotations = db.session.query(func.count(VendorQuotation.id)).filter(VendorQuotation.status == 'submitted').scalar() or 0
+        gst_invoices_pending = db.session.query(func.count(GSTInvoice.id)).filter(GSTInvoice.status.in_(['sent', 'draft'])).scalar() or 0
+        total_po_value = db.session.query(func.sum(GSTInvoice.total_amount)).filter(GSTInvoice.status == 'paid').scalar() or 0
 
         return jsonify({
             "total_revenue": float(total_revenue),
@@ -24,7 +30,11 @@ def get_kpis():
             "total_products": total_products,
             "total_employees": total_employees,
             "revenue_change_pct": 12.5,
-            "customer_change_pct": 8.2
+            "customer_change_pct": 8.2,
+            "active_rfqs": active_rfqs,
+            "pending_quotations": pending_quotations,
+            "gst_invoices_pending": gst_invoices_pending,
+            "total_po_value": float(total_po_value)
         }), 200
     except Exception as e:
         return jsonify({
