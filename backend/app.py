@@ -33,6 +33,39 @@ def create_app():
     
     db.init_app(app)
     
+    with app.app_context():
+        try:
+            db.create_all()
+            from models.user import User
+            if not User.query.first():
+                import os
+                from sqlalchemy import text
+                seed_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'database', 'seed.sql'))
+                if os.path.exists(seed_path):
+                    with open(seed_path, 'r', encoding='utf-8') as f:
+                        sql_script = f.read()
+                        
+                        statements = []
+                        current_stmt = []
+                        for line in sql_script.split('\n'):
+                            clean_line = line.strip()
+                            if not clean_line or clean_line.startswith('--'):
+                                continue
+                            current_stmt.append(line)
+                            if clean_line.endswith(';'):
+                                statements.append('\n'.join(current_stmt))
+                                current_stmt = []
+                                
+                        for stmt in statements:
+                            try:
+                                db.session.execute(text(stmt))
+                            except Exception:
+                                pass
+                        db.session.commit()
+                        print("Database seeded successfully via startup hook.")
+        except Exception as e:
+            print(f"Database auto-creation or seeding failed: {e}")
+    
     from extensions import limiter
     limiter.init_app(app)
 

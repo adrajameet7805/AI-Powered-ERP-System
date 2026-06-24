@@ -13,23 +13,40 @@ from routes.auth import token_required
 
 export_bp = Blueprint('export', __name__)
 
-def generate_excel(query_model, filename):
-    data = [item.to_dict() for item in query_model.query.all()]
+def generate_excel(model, filename):
+    # Limit to last 1000 rows to prevent memory/timeout issues
+    items = model.query.order_by(model.id.desc()).limit(1000).all()
+    data = [item.to_dict() for item in items]
+
     if not data:
-        return jsonify({"error": "No data found"}), 404
-        
-    df = pd.DataFrame(data)
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
-    
-    output.seek(0)
-    return send_file(
-        output,
-        mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        as_attachment=True,
-        download_name=filename
+        return jsonify({'error': 'No data to export'}), 404
+
+    import io
+    from openpyxl import Workbook
+    wb = Workbook(write_only=True)  # write_only=True is faster
+    ws = wb.create_sheet()
+
+    if data:
+        ws.append(list(data[0].keys()))  # header row
+        for row in data:
+            ws.append([str(v) if v is not None else ''
+                       for v in row.values()])
+
+    buffer = io.BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+
+    from flask import Response
+    response = Response(
+        buffer.getvalue(),
+        mimetype='application/vnd.openxmlformats-officedocument'
+                 '.spreadsheetml.sheet',
+        headers={'Content-Disposition':
+                 f'attachment; filename={filename}'}
     )
+    response.headers['Cache-Control'] = 'no-store'
+    response.headers['X-Export-Rows'] = str(len(data))
+    return response
 
 def generate_pdf(title, data, filename):
     from reportlab.lib.pagesizes import letter
