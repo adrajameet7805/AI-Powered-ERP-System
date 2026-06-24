@@ -8,7 +8,7 @@
 **React · Flask · PostgreSQL · Facebook Prophet · Docker**
 
 [![Version](https://img.shields.io/badge/Version-3.0.0-blueviolet?style=for-the-badge&logo=github)](https://github.com/adrajameet7805)
-[![License](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](https://github.com/adrajameet7805/AI-Powered-ERP-System)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](https://github.com/adrajameet7805/AI-Powered-ERP-System/blob/main/LICENSE)
 [![Build](https://img.shields.io/badge/Build-Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/adrajameet7805/AI-Powered-ERP-System/actions)
 [![APIs](https://img.shields.io/badge/APIs-24%2F24_Passing-success?style=for-the-badge)](https://github.com/adrajameet7805/AI-Powered-ERP-System)
 [![Made With Love](https://img.shields.io/badge/Made%20With-%E2%9D%A4%EF%B8%8F-red?style=for-the-badge)](https://github.com/adrajameet7805)
@@ -477,7 +477,34 @@ pytest tests/ --cov=. --cov-report=term-missing
 
 [![GitHub](https://img.shields.io/badge/GitHub-%40adrajameet7805-181717?style=flat-square&logo=github)](https://github.com/adrajameet7805)
 
-*© 2026 Meet Adraja. All rights reserved.*
-*If this helped you, please give it a ⭐*
-
 </div>
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions to SynergyBeam ERP! Please feel free to open issues or submit pull requests to help improve the project.
+
+### How to Contribute:
+1. **Fork** the repository.
+2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`).
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`).
+4. **Push** to the branch (`git push origin feature/AmazingFeature`).
+5. **Open** a Pull Request.
+
+---
+
+## 📄 License & Open Source
+
+This project is open-source and distributed under the **MIT License**. See the [LICENSE](file:///c:/Users/Meet/Downloads/synergybeam-erp-main/synergybeam-erp-main/LICENSE) file for the full license text.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/adrajameet7805/AI-Powered-ERP-System)
+
+---
+
+## ⚖️ Legal Disclaimer
+
+This software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+
+*© 2026 Meet Adraja. All rights reserved.*
